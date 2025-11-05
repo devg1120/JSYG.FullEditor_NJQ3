@@ -1,0 +1,33 @@
+{
+  "name": "jsyg-color",
+  "version": "1.0.0",
+  "description": "Colors constructor for JSYG framework or standalone",
+  "main": "JSYG.Color.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/YannickBochatay/JSYG.Color.git"
+  },
+  "keywords": [
+    "svg",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/JSYG.Color/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/JSYG.Color#readme",
+  "devDependencies": {
+    "qunit": "^2.6.0",
+    "requirejs": "^2.3.5"
+  },
+  "dependencies": {}
+}

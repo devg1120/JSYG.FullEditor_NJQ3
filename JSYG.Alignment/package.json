@@ -1,0 +1,32 @@
+{
+  "name": "jsyg-alignment",
+  "version": "1.0.0",
+  "description": "Alignment plugin for JSYG framework",
+  "main": "JSYG.Alignment.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/YannickBochatay/JSYG.Alignment.git"
+  },
+  "keywords": [
+    "svg",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/JSYG.Alignment/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/JSYG.Alignment#readme",
+  "dependencies": {
+    "jsyg": "^1.0.2",
+    "jsyg-path": "^1.0.0"
+  }
+}

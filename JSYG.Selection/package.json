@@ -1,0 +1,34 @@
+{
+  "name": "jsyg-selection",
+  "version": "1.0.0",
+  "description": "Mouse selection plugin for JSYG framework",
+  "main": "JSYG.Selection.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/YannickBochatay/JSYG.Selection.git"
+  },
+  "keywords": [
+    "svg",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/JSYG.Selection/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/JSYG.Selection#readme",
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "jquery.hotkeys": "^0.1.0",
+    "jsyg": "^1.0.2",
+    "jsyg-resizable": "^1.0.0"
+  }
+}

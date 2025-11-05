@@ -1,0 +1,36 @@
+{
+  "name": "jsyg-wrapper",
+  "version": "1.1.2",
+  "description": "jQuery wrapper to work on svg elements",
+  "main": "JSYG-wrapper.js",
+  "directories": {
+    "example": "examples",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/YannickBochatay/JSYG-wrapper.git"
+  },
+  "keywords": [
+    "svg",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/JSYG-wrapper/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/JSYG-wrapper#readme",
+  "dependencies": {
+    "jquery": "^3.7.1"
+  },
+  "devDependencies": {
+    "qunit": "^2.22.0",
+    "requirejs": "^2.3.7"
+  }
+}

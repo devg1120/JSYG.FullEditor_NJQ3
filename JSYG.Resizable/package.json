@@ -1,0 +1,31 @@
+{
+  "name": "jsyg-resizable",
+  "version": "1.0.0",
+  "description": "Resizable plugin for JSYG framework",
+  "main": "JSYG.Resizable.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/YannickBochatay/JSYG.Resizable.git"
+  },
+  "keywords": [
+    "svg",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/JSYG.Resizable/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/JSYG.Resizable#readme",
+  "dependencies": {
+    "jsyg": "^1.0.2"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "jsyg-undoredo",
+  "version": "1.0.0",
+  "description": "DOM Undo/Redo plugin for JSYG framework",
+  "main": "JSYG.UndoRedo.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/YannickBochatay/JSYG.UndoRedo.git"
+  },
+  "keywords": [
+    "svg",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/JSYG.UndoRedo/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/JSYG.UndoRedo#readme",
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "jquery.hotkeys": "^0.1.0",
+    "jsyg-stdconstruct": "^1.0.0"
+  }
+}

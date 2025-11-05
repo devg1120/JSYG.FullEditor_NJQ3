@@ -1,0 +1,30 @@
+{
+  "name": "vite-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host --port 3000",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "documentation": "^14.0.3",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.7.1",
+    "jquery-mousewheel": "^3.2.2",
+    "jquery.hotkeys": "^0.1.0",
+    "js-cookie": "^3.0.5",
+    "jsyg-matrix": "^1.0.0",
+    "jsyg-point": "^1.0.1",
+    "jsyg-strutils": "^1.0.0",
+    "jsyg-vect": "^1.0.2",
+    "pathseg": "^1.2.1",
+    "prettier": "^3.6.2",
+    "zepto.js": "^1.1.6"
+  }
+}

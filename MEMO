@@ -1,0 +1,16 @@
+
+JSYG.Draggable 
+JSYG.Editor
+JSYG.Events
+JSYG.Path                          not class
+JSYG.PathDrawer
+JSYG.PolylineDrawer
+
+JSYG.Resizable 
+JSYG.Rotatable
+JSYG.Selection
+JSYG.ShapeDrawer
+
+JSYG.UndoRedo
+
+JSYG.ZoomAndPan

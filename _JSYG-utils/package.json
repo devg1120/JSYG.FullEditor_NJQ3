@@ -1,0 +1,42 @@
+{
+  "name": "jsyg-utils",
+  "version": "1.0.5",
+  "description": "Many features added to JSYG",
+  "main": "JSYG-utils.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "documentation readme JSYG-utils.js --section=API"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/YannickBochatay/JSYG-utils.git"
+  },
+  "keywords": [
+    "svg",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/JSYG-utils/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/JSYG-utils#readme",
+  "devDependencies": {
+    "documentation": "^14.0.3",
+    "jquery": "^3.3.1",
+    "qunit": "^2.6.0",
+    "requirejs": "^2.3.5"
+  },
+  "dependencies": {
+    "jsyg-matrix": "^1.0.0",
+    "jsyg-point": "^1.0.1",
+    "jsyg-strutils": "^1.0.0",
+    "jsyg-vect": "^1.0.2",
+    "jsyg-wrapper": "^1.0.0"
+  }
+}

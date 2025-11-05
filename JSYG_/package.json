@@ -1,0 +1,47 @@
+{
+  "name": "jsyg",
+  "version": "1.1.1",
+  "description": "Core of JSYG framework",
+  "main": "JSYG.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "grunt": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/YannickBochatay/JSYG.git"
+  },
+  "keywords": [
+    "svg",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/JSYG/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/JSYG#readme",
+  "devDependencies": {
+    "grunt": "^1.0.2",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "qunit": "^2.6.0",
+    "requirejs": "^2.3.5"
+  },
+  "dependencies": {
+    "jquery": "^3.7.1",
+    "jsyg-events": "^1.0.0",
+    "jsyg-matrix": "^1.0.0",
+    "jsyg-point": "^1.0.1",
+    "jsyg-stdconstruct": "^1.0.0",
+    "jsyg-strutils": "^1.0.0",
+    "jsyg-utils": "^1.0.4",
+    "jsyg-vect": "^1.0.2",
+    "jsyg-wrapper": "^1.1.0"
+  }
+}

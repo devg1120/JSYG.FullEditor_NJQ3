@@ -1,0 +1,224 @@
+
+
+import FullEditor  from "./JSYG.FullEditor_es6.js";
+//import JSYG from "jsyg"
+import JSYG                from "./JSYG-wrapper/JSYG-wrapper.js"
+
+
+//const sleep = (time) => new Promise((r) => setTimeout(r, time));//timeはミリ秒
+
+
+//$( function() {
+window.addEventListener('DOMContentLoaded', function() {
+//window.onload = ()=>{
+
+
+    window.svgEditor = new FullEditor('svg');
+
+    svgEditor.editableShapes = "> *";
+
+    svgEditor.enable();
+
+
+    ["left","center","right","top","middle","bottom"].forEach(type => {
+
+        $(`#align${JSYG.ucfirst(type)}`).on("click",() => {
+            svgEditor.align(type);
+        })
+    });
+
+    ["Front","Back","ToFront","ToBack"].forEach(type => {
+
+        $(`#move${type}`).on("click",() => {
+            svgEditor[`moveTarget${type}`]();
+        });
+    });
+
+    $("#insertText").on("click",function() {
+        const text = new JSYG("<text>").text("Bonjour le monde");
+        svgEditor.enableInsertElement(text);
+        new JSYG(this).trigger("blur");
+    });
+
+    $("#newDocument").on("click",() => {
+        svgEditor.newDocument( $('#width').val(), $('#height').val() );
+    });
+
+    $("#openDocument").on("click",() => {
+        console.log("openDocument");
+        //svgEditor.chooseFile().then(svgEditor.loadFile).catch(alert);
+        svgEditor.chooseFile().then((arg) => svgEditor.loadFile(arg)).catch(alert);  // GUSA
+    });
+
+    $("#openImage").on("click",() => {
+
+        svgEditor.chooseFile().then(svgEditor.loadImageAsDoc).catch(alert);
+    });
+
+    $("#insertImage").on("click",() => {
+
+        svgEditor.chooseFile().then(svgEditor.insertImageFile).catch(alert);
+    });
+
+    $("#downloadSVG").on("click",() => {
+
+        svgEditor.download("svg");
+    });
+
+     $("#downloadPNG").on("click",() => {
+
+        svgEditor.download("png");
+    });
+
+    $('#openExample').on("click",() => {
+        $('#exampleChoice').modal();
+    });
+
+    $('#confirmExample').on("click",() => {
+        $('#exampleChoice').modal("hide");
+        svgEditor.loadURL(`examples/${$('#examples').val()}.svg`);
+    });
+
+    svgEditor.on("load",() => {
+        const dim = svgEditor.dimDocument();
+        $('#width').val(dim.width);
+        $('#height').val(dim.height);
+    });
+
+    $('#width').on("change",function() {
+        svgEditor.dimDocument({width:this.value});
+    });
+
+    $('#height').on("change",function() {
+        svgEditor.dimDocument({height:this.value});
+    });
+
+
+    $('.collapse').collapse({parent:"#accordion"});
+
+    $('#viewPanel').on("hide.bs.collapse",() => {
+        svgEditor.disableMousePan();
+        $('#mousePan').removeClass("active");
+    });
+/*
+    $('#mousePan').on("click",function() {
+        svgEditor.enableMousePan();
+        $(this).addClass("active");
+    });
+*/
+    $('#mousePan').on("click",() =>  {   //GUSA
+        svgEditor.enableMousePan();
+        $(this).addClass("active");
+    });
+
+    $('#drawShapes').on({
+        "show.bs.collapse":function () {
+            $('#shape').trigger("change");
+        },
+        "hide.bs.collapse":function() {
+            svgEditor.disableShapeDrawer();
+            svgEditor.disableInsertElement();
+            svgEditor.enableSelection();
+        }
+    });
+	
+    $('#drawShapesOff').on("click", function(){
+	    console.log("click Off");
+            svgEditor.disableShapeDrawer();
+            svgEditor.disableInsertElement();
+            svgEditor.enableSelection();
+	    $('#shape').val("-");
+    });
+
+    $('#shape').on("change",function() {
+
+        let type = this.value;
+
+        if (type == "-") {
+            svgEditor.disableShapeDrawer();
+            svgEditor.disableInsertElement();
+            svgEditor.enableSelection();
+            return;
+
+	}
+
+        if (type.includes("path")) {
+            svgEditor.drawingPathMethod = (type == "path") ? "point2point" : "freehand";
+            type = "path";
+        }
+
+        const shape = new JSYG(`<${type}>`).addClass("perso");
+
+        if (type == "text") svgEditor.enableInsertElement(shape);
+        else svgEditor.enableShapeDrawer(shape);
+    });
+
+    $('#marqueeZoom').on("click",() => {
+        svgEditor.marqueeZoom();
+    });
+
+    $('#fitToCanvas').on("click",() => {
+        svgEditor.zoomTo('canvas');
+    });
+
+    $('#fitToDoc').on("click",() => {
+       svgEditor.fitToDoc();
+    });
+
+    $('#realSize').on("click",() => {
+        svgEditor.zoomTo(100);
+    });
+
+    $('#zoomIn').on("click",() => {
+        svgEditor.zoom(+10);
+    });
+
+    $('#zoomOut').on("click",() => {
+        svgEditor.zoom(-10);
+    });
+
+    ["remove","copy","cut","paste","undo","redo","group","ungroup"].forEach(action => {
+/*
+        $('#'+action).on("click",function() {
+            svgEditor[action]();
+        });
+*/
+	    
+        $(`#${action}`).on("click",(arg) => {    // GUSA
+            svgEditor[action](arg);
+        });
+	
+    });
+
+    ["canvasResizable","editPathMainPoints","editPathCtrlPoints","keepShapesRatio","autoSmoothPaths","useTransformAttr","editPosition","editSize","editRotation","editText"].forEach(property => {
+
+        $(`#${property}`).on("change",function() {
+            svgEditor[property] = this.checked;
+            new JSYG(this).blur();
+        }).trigger("change");
+    });
+
+    $('#print').on("click",() => { svgEditor.print(); });
+
+    svgEditor.registerKeyShortCut({
+        "ctrl+c": svgEditor.copy,
+        "ctrl+x": svgEditor.cut,
+        "ctrl+v": svgEditor.paste,
+        "ctrl+z": svgEditor.undo,
+        "ctrl+y": svgEditor.redo,
+        "ctrl+a":svgEditor.selectAll,
+        "del": svgEditor.remove,
+        "up" : function(e) { e.preventDefault(); svgEditor.dim("y","-=1"); },
+        "down" : function(e) { e.preventDefault(); svgEditor.dim("y","+=1"); },
+        "left" : function(e) { e.preventDefault(); svgEditor.dim("x","-=1"); },
+        "right" : function(e) { e.preventDefault(); svgEditor.dim("x","+=1"); }
+    });
+
+    svgEditor.newDocument(500,500);
+
+    svgEditor.enableDropFiles();
+
+    svgEditor.enableMouseWheelZoom();
+
+});
+

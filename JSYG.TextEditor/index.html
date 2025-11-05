@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>JSYG tests</title>
+            
+        <link rel="stylesheet" href="node_modules/jsyg-boundingbox/JSYG.BoundingBox.css"/>
+        <link rel="stylesheet" href="JSYG.TextEditor.css"/>
+            
+        <script src="node_modules/jquery/dist/jquery.js"></script>
+        <script src="node_modules/pathseg/pathseg.js"></script>
+        <script src="node_modules/jsyg/dist/JSYG.js"></script>
+        <script src="node_modules/jsyg-path/JSYG.Path.js"></script>
+        <script src="node_modules/jsyg-boundingbox/JSYG.BoundingBox.js"></script>
+        <script src="node_modules/jsyg-color/JSYG.Color.js"></script>
+        <script type="module" src="JSYG.TextEditor7.js"></script>
+    </head>
+    <body>
+        
+        <svg class="svgedit" width="588" height="588" id="content" viewBox="0 0 588 588" >
+            <text fill="orange" x="10" y="20"  >a Ce texte est 関西　editable</text>
+            <text fill="blue"   x="0" y="60" text-decoration="underline">This text is editable</text>
+            <text fill="blue"   x="170" y="60" text-decoration="overline">This text is editable</text>
+            <text fill="blue"   x="350" y="60" text-decoration="line-through">This text is editable</text>
+            <text fill="blue"   x="20" y="100" text-decoration="underline overline line-through">This text is editable</text>
+
+            <text fill="#ff00ff" x="60" y="140"      >This 日本 text is editable</text>
+	    -
+            <text fill="#ff00ff" x="60" y="165"  font-family="Arial"                >This 日本 text is editable</text>
+            <text fill="#ff00ff" x="60" y="195"  font-family="Arial" font-size="25" >This 日本 text is editable</text>
+            <text fill="#ff00ff" x="60" y="235"  font-family="遊ゴシック" font-size="25" >This 日本 text is editable</text>
+            <text fill="blue"   x="30" y="280" font-weight="bold" >This text is bold</text>
+            <text fill="blue"   x="30" y="300"  >This text is bold</text>
+            <text fill="blue"   x="30" y="340" font-style="italic" >This text is italic</text>
+	    
+        </svg>
+	<dialog id="myDialog"  draggable="true">
+	<p id="header"style="margin:0px;" align="right">
+           <button id="applyDialog">Apply</button>
+           <button id="closeDialog" >Close</button>
+	</p>
+	<!--
+           <svg width="100%" height="100%" id="preview" viewBox="0 0 200 20" >
+               <text   fill="blue"  x="0" y="15"  >PRE VIEW 123456789abcdefg</text>
+	   </svg>
+	-->
+           <svg width="100%"  height="100px" id="preview"  >
+               <text    fill="blue"  x="0" y="75"  >PRE VIEW 123456789abcdefg</text>
+	   </svg>
+        <br>
+           <textarea id="myTextarea" rows="4" cols="30">ここに初期テキストを入力します。</textarea><br>
+	   <input id="colorPicker" type="color" value="#ffffff">
+
+           <select name="fontName" id="fontName">
+             <option value="遊ゴシック">遊ゴシック</option>
+             <option value="メイリオ">メイリオ</option>
+             <option value="MSゴシック">MSゴシック</option>
+             <option value="Arial">Arial</option>
+           </select>
+
+           <select name="fontWeight" id="fontWeight">
+             <option value="normal">normal</option>
+             <option value="bold">bold</option>
+             <option value="bolder">bolder</option>
+             <option value="lighter">lighter</option>
+           </select>
+           <select name="fontStyle" id="fontStyle">
+             <option value="normal">normal</option>
+             <option value="italic">italic</option>
+             <option value="oblique">oblique</option>
+           </select>
+
+	   <input id="fontSizer" type="number" value="16"/>
+
+	   <button id="underLineToggle" class="toggle"> <img src="./underline2.svg" alt="under line"></button>
+	   <button id="overLineToggle" class="toggle"><img src="./overline2.svg" alt="over line"></button>
+	   <button id="striketHroughToggle" class="toggle"><img src="./stlikline.svg" alt="strike through"></button>
+
+	   <!--
+           <button id="applyDialog">Apply</button>
+	   -->
+	   <!--
+           <button id="closeDialog">Save</button>
+	   -->
+        </dialog>
+       
+        <script type="module">
+            
+            var container = new JSYG("#content");
+            
+            var editor = new JSYG.TextEditor(container);
+           /*
+           $('svg').on("click",function(e) {
+               var target = new JSYG(e.target);
+               if (target.getTag() == "text") {
+                   editor.target(target);
+                   editor.show();
+               }
+                   
+           });
+           */
+           $('.svgedit').on("click",function(e) {
+               var target = new JSYG(e.target);
+               if (target.getTag() == "text") {
+                   editor.target(target);
+                   editor.show();
+               }
+                   
+           });
+            
+        </script>
+    </body>
+<style>
+
+#myDialog {
+ border: solid 1px gray;
+ padding : 4px;
+}
+
+#myTextarea {
+ border: dotted 1px gray;
+ margin:2px;
+}
+
+#myTextarea:focus {
+ border: solid 1px gray;
+ outline: none;
+}
+
+</style>
+</html>

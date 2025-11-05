@@ -1,0 +1,33 @@
+{
+  "name": "jsyg-events",
+  "version": "1.0.0",
+  "description": "Events constructor for JSYG framework (or standalone)",
+  "main": "JSYG.Events.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/YannickBochatay/JSYG.Events.git"
+  },
+  "keywords": [
+    "svg",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/JSYG.Events/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/JSYG.Events#readme",
+  "devDependencies": {
+    "jsyg-wrapper": "^1.0.0",
+    "qunit": "^2.6.0",
+    "requirejs": "^2.3.5"
+  }
+}

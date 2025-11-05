@@ -1,0 +1,31 @@
+{
+  "name": "jsyg-rotatable",
+  "version": "1.0.0",
+  "description": "Rotatable plugin for JSYG framework",
+  "main": "JSYG.Rotatable.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/YannickBochatay/JSYG.Rotatable.git"
+  },
+  "keywords": [
+    "svg",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/JSYG.Rotatable/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/JSYG.Rotatable#readme",
+  "dependencies": {
+    "jsyg": "^1.0.2"
+  }
+}

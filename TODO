@@ -1,0 +1,11 @@
+JSYG-wrapper/JSYG-wrapper.js 
+
+3053                 var $this = new JSYG(this),
+3054                 plugin = $this.data(name); //GUSA
+3055                  console.log("pligin",name,  plugin);
+3056 
+3057                 if (!plugin) {
+3058                     plugin = new Construct(this);
+3059                     $this.data(name,plugin);    //GUSA
+3060                 }
+3061 
