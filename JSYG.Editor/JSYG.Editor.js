@@ -403,8 +403,10 @@ class ClipBoard extends StdConstruct {
 
         if (!target.length) return this;
 
-        this.buffer = target.clone()[0];
-        this._parent = target.parent()[0];
+        //this.buffer = target.clone()[0];
+        //this._parent = target.parent()[0];
+        this.buffer = target[0].cloneNode(true);
+        this._parent = target[0].parentNode;
 
         this.trigger("copy", this.editor.node, target[0], this.buffer);
         return this;
@@ -441,7 +443,8 @@ class ClipBoard extends StdConstruct {
 
         parent = new JSYG(parent || this._parent);
 
-        clone.appendTo(parent);
+        //clone.appendTo(parent); //GUSA
+        clone.appendTo_(parent);
 
         dim = clone.getDim(parent);
 
@@ -451,7 +454,8 @@ class ClipBoard extends StdConstruct {
             from: parent,
         });
 
-        this.buffer = clone.clone()[0];
+        //this.buffer = clone.clone()[0]; //GUSA
+        this.buffer = clone[0].cloneNode(true);
 
         if (this._multiSelection) {
             children = clone.children();

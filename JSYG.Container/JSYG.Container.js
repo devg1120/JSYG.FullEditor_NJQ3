@@ -2,12 +2,11 @@ import JSYG from "../JSYG-wrapper/JSYG-wrapper.js";
 
 export class Container extends JSYG {
     constructor(arg) {
-        super();
+        super(arg);
         if (!(this instanceof Container)) return new Container(arg);
 
         if (!arg) arg = "<g>";
 
-        super(arg);
 
         if (this.getTag() != "g") throw new Error("L'argument ne fait pas référence à un conteneur g.");
     }
