@@ -1,8 +1,8 @@
 module.exports = {
   // 1行の最大文字数
-  printWidth: 100,
+  printWidth: 200,
   // タブの幅
-  tabWidth: 4,
+  tabWidth: 2,
   // タブではなくスペースを使用する
   useTabs: false,
   // ステートメントの末尾にセミコロンを出力する
@@ -10,7 +10,7 @@ module.exports = {
   singleQuote: false,
   trailingComma: "all",
   bracketSameLine: true,
-singleAttributePerLine: true,
+  singleAttributePerLine: false,
 
 }
 

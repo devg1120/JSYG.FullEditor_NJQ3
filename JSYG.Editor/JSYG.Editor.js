@@ -252,6 +252,45 @@ export class Editor extends StdConstruct {
         return this;
     }
 
+    svgAttr() {
+        const target = this.target();
+        if (!target) return this;
+        if (target.length == 0) return this;
+	console.log("svgAttr", target.length);
+        let jNode = new JSYG(target[0]);
+        if (!jNode.isSVG()) return;
+        const tag = jNode.getTag();
+        console.log(tag);
+        if ( tag === "rect" ) {
+           let c = target[0].getAttribute("class");
+           let f = target[0].getAttribute("fill");
+           let fo = target[0].getAttribute("fill-opacity");
+           let s = target[0].getAttribute("stroke");
+           let sw = target[0].getAttribute("stroke-width");
+
+          console.log(c,f,fo,s,sw);
+        }
+    }
+
+    svgAttrGet() {
+        const target = this.target();
+        if (!target) return this;
+        if (target.length == 0) return this;
+	console.log("svgAttrGet", target.length);
+        let jNode = new JSYG(target[0]);
+        if (!jNode.isSVG()) return;
+        const tag = jNode.getTag();
+        console.log(tag);
+        if ( tag === "rect" ) {
+           let c = target[0].getAttribute("class");
+           let f = target[0].getAttribute("fill");
+           let fo = target[0].getAttribute("fill-opacity");
+           let s = target[0].getAttribute("stroke");
+           let sw = target[0].getAttribute("stroke-width");
+
+          console.log(c,f,fo,s,sw);
+        }
+    }
     color() {
         const target = this.target();
         if (target.length == 0) return this;

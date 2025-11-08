@@ -117,6 +117,28 @@ window.addEventListener("DOMContentLoaded", function () {
     if (target) {
         target.addEventListener(eventName, handler, false);
     }
+
+    selector = "#svgAttrSet";
+    eventName = "click";
+    handler = () => {
+        svgEditor.svgAttr();
+    };
+    target = document.querySelector(selector);
+    if (target) {
+        target.addEventListener(eventName, handler, false);
+    }
+
+    selector = "#svgAttrGet";
+    eventName = "click";
+    handler = () => {
+        svgEditor.svgAttrGet();
+    };
+    target = document.querySelector(selector);
+    if (target) {
+        target.addEventListener(eventName, handler, false);
+    }
+
+
     /* TODO
     selector = '#openExample'
     eventName = 'click'

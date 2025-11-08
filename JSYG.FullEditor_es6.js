@@ -1130,11 +1130,23 @@ export default class FullEditor extends JSYG {
         return this;
     }
 
+   svgAttr(type) {
+        this.shapeEditor.svgAttr();
+
+        return this;
+   }
+
+   svgAttrGet(type) {
+        this.shapeEditor.svgAttrGet();
+
+        return this;
+   }
    color(type) {
         this.shapeEditor.color();
 
         return this;
     }
+
     target(value) {
         if (value == null) {
             if (this.textEditor.display) return this.textEditor.target();
