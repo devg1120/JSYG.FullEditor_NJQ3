@@ -108,6 +108,15 @@ window.addEventListener("DOMContentLoaded", function () {
         target.addEventListener(eventName, handler, false);
     }
 
+    selector = "#setColor";
+    eventName = "click";
+    handler = () => {
+        svgEditor.color();
+    };
+    target = document.querySelector(selector);
+    if (target) {
+        target.addEventListener(eventName, handler, false);
+    }
     /* TODO
     selector = '#openExample'
     eventName = 'click'

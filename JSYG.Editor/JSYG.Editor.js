@@ -252,6 +252,33 @@ export class Editor extends StdConstruct {
         return this;
     }
 
+    color() {
+        const target = this.target();
+        if (target.length == 0) return this;
+	console.log("set color", target[0]);
+
+        let jNode = new JSYG(target[0]);
+        if (!jNode.isSVG()) return;
+
+        const svg = jNode.offsetParent("farthest");
+        const CTM = jNode.getMtx(svg);
+        const tag = jNode.getTag();
+        console.log(tag);
+        if ( tag === "rect" ) {
+	    // perso
+	    //
+        console.log(target[0].getAttribute("class"));  // org-class perso
+        target[0].setAttribute("class", "");  // org-class perso
+        target[0].setAttribute("fill", "red");
+        target[0].setAttribute("fill-opacity", "0.2");
+        target[0].setAttribute("stroke", "blue");
+        target[0].setAttribute("stroke-width", "3");
+        }
+
+        this.update();
+        this.trigger("change", this.node, this._target);
+        return this;
+    }
     group() {
         const target = this.target();
         let g;
