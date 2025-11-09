@@ -39,12 +39,10 @@
       .btn.btn-default img {
         height: 18px;
       }
-      /*
       .col-form-label {
         padding-left: 0px;
         width: 30px !important;
       }
-      */
     </style>
   </head>
   <body>
@@ -209,10 +207,10 @@
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingFive">
               <h5 class="panel-title">
-                <a class="collapsed" role="button" data-bs-toggle="collapse" data-parent="#accordion" href="#setAttr" aria-expanded="true" aria-controls="setAttr"> SVGattr </a>
+                <a class="collapsed" role="button" data-bs-toggle="collapse" data-parent="#accordion" href="#setAttr" aria-expanded=true aria-controls="setAttr"> SVGattr </a>
               </h5>
             </div>
-            <div id="setAttr" class="collapse collapse_ in show" role="tabpanel" aria-labelledby="setAttr">
+            <div id="setAttr" class="collapse collapse_ in show " role="tabpanel" aria-labelledby="setAttr">
               <div class="panel-body">
                 <br />
                 <div class="row">
@@ -226,35 +224,15 @@
                   <div class="col"></div>
                 </div>
                 <br />
-
-                <div class="container-fluid ">
-                  <h6>Hello World!</h6>
-                  <div class="row mb-3">
-                    <div class="col-sm-2">
-                      <label  class="col-form-label">class:</label>
+                <fieldset>
+                  <div class="row">
+                    <div class="col">
+                      <label for="width" class="col-form-label">class:</label>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col">
                       <input type="text" class="form-control" id="class" placeholder="class" value="500" />
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-sm-2">
-                      <label  class="col-form-label">fill:</label>
-                    </div>
-                    <div class="col-sm-4">
-                      <input type="text" class="form-control" id="fill" placeholder="fill" value="500" />
-                    </div>
-                    <div class="col-sm-2">
-                      <label  class="col-form-label">opacity:</label>
-                    </div>
-                    <div class="col-sm-4">
-                      <input type="text" class="form-control" id="fillopc" placeholder="fillopc" value="500" />
-                    </div>
-                  </div>
-                </div>
-
-                <hr />
-                <fieldset>
 
                   <div class="row">
                     <div class="col">
@@ -272,6 +250,9 @@
                       <input type="text" class="form-control" id="fillopc" placeholder="fillopc" value="500" />
                     </div>
                   </div>
+
+
+
 
                   <div class="row">
                     <div class="col">
@@ -318,57 +299,60 @@
 
                 <hr />
 
-                <div class="row mb-3">
-                  <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Email</label>
-                  <div class="col-sm-10">
-                    <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm" />
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
-                  <div class="col-sm-10">
-                    <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label" />
-                  </div>
-                </div>
-                <div class="row">
-                  <label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
-                  <div class="col-sm-10">
-                    <input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="col-form-label-lg" />
-                  </div>
-                </div>
-                <hr />
-                <div class="row g-3">
-                  <div class="col-sm-7">
-                    <input type="text" class="form-control" placeholder="City" aria-label="City" />
-                  </div>
-                  <div class="col-sm">
-                    <input type="text" class="form-control" placeholder="State" aria-label="State" />
-                  </div>
-                  <div class="col-sm">
-                    <input type="text" class="form-control" placeholder="Zip" aria-label="Zip" />
-                  </div>
-                </div>
 
-                <hr />
-                <div class="container-fluid">
-                  <h1>Hello World!</h1>
-                  <div class="row">
-                    <div class="col-sm-4" style="background-color: yellow">
-                      <p>Lorem ipsum...</p>
-                    </div>
-                    <div class="col-sm-8" style="background-color: pink">
-                      <p>Sed ut perspiciatis...</p>
-                    </div>
-                  </div>
-                </div>
-                <hr />
-                <div class="row">
-                  <div class="col-sm-4">.col-sm-4</div>
-                  <div class="col-sm-4">.col-sm-4</div>
-                  <div class="col-sm-4">.col-sm-4</div>
-                </div>
 
-                <hr />
+<div class="row mb-3">
+  <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Email</label>
+  <div class="col-sm-10">
+    <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+  </div>
+</div>
+<div class="row mb-3">
+  <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
+  <div class="col-sm-10">
+    <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label">
+  </div>
+</div>
+<div class="row">
+  <label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
+  <div class="col-sm-10">
+    <input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="col-form-label-lg">
+  </div>
+</div>
+<hr/>
+<div class="row g-3">
+  <div class="col-sm-7">
+    <input type="text" class="form-control" placeholder="City" aria-label="City">
+  </div>
+  <div class="col-sm">
+    <input type="text" class="form-control" placeholder="State" aria-label="State">
+  </div>
+  <div class="col-sm">
+    <input type="text" class="form-control" placeholder="Zip" aria-label="Zip">
+  </div>
+</div>
+
+<hr/>
+<div class="container-fluid">
+  <h1>Hello World!</h1>
+  <div class="row">
+    <div class="col-sm-4" style="background-color:yellow;">
+      <p>Lorem ipsum...</p>
+    </div>
+    <div class="col-sm-8" style="background-color:pink;">
+      <p>Sed ut perspiciatis...</p>
+    </div>
+  </div>
+</div>
+<hr/>
+<div class="row">
+  <div class="col-sm-4">.col-sm-4</div>
+  <div class="col-sm-4">.col-sm-4</div>
+  <div class="col-sm-4">.col-sm-4</div>
+</div>
+
+<hr/>
+
               </div>
             </div>
           </div>
