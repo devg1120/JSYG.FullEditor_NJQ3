@@ -248,58 +248,119 @@
                               </div>
                            </div>
 
-                           <div class="row mb-3">
-                              <div class="col-sm-2">
-                                 <label class="col-form-label">fill</label>
+			   <h6>fill</h6>
+                           <div class="row mb-2">
+                              <div class="col-sm-2 offset-1">
+                                 <label class="col-form-label">color</label>
                               </div>
-                              <div class="col-sm-4">
+                              <div class="col-sm-3">
                                  <input type="text" class="form-control" id="fill" placeholder="fill" value="500" />
                               </div>
                               <div class="col-sm-2">
-                                 <input type="color" class="form-control form-control-color" name="color" />
+                                 <input type="color" class="form-control form-control-color" id="fill-color" name="color" />
                               </div>
                               <div class="col-sm-2">
                                  <label class="col-form-label">opacity</label>
                               </div>
                               <div class="col-sm-2">
-                                 <input type="text" class="form-control" id="fillopc" placeholder="fillopc" value="50" />
+                                 <input type="text" class="form-control" id="fill-opacity" placeholder="fill-opacity" value="1" />
+                              </div>
+                           </div>
+                           <div class="row mb-2">
+                              <div class="col-sm-2 offset-1">
+                                 <label class="col-form-label">filter</label>
+                              </div>
+                              <div class="col-sm-3">
+                                 <select id="fill-filter" class="form-control">
+                                    <option>-</option>
+                                    <option>shadow1</option>
+                                    <option>shadow2</option>
+                                    <option>shadow3</option>
+                                 </select>
+                              </div>
+                              <div class="col-sm-2">
+                                 <label class="col-form-label">linejoin</label>
+                              </div>
+                              <div class="col-sm-3">
+                                 <select id="shape" class="form-control">
+                                    <option>miter</option>
+                                    <option>arcs</option>
+                                    <option>bevel</option>
+                                    <option>miter-clip</option>
+                                    <option>round</option>
+                                 </select>
                               </div>
                            </div>
 
-                           <div class="row mb-3">
-                              <div class="col-sm-2">
-                                 <label class="col-form-label">stroke</label>
+			   <h6>stroke</h6>
+                           <div class="row mb-2">
+                              <div class="col-sm-2 offset-1">
+                                 <label class="col-form-label">color</label>
                               </div>
-                              <div class="col-sm-4">
-                                 <input type="text" class="form-control" id="fill" placeholder="fill" value="500" />
-                              </div>
-                              <div class="col-sm-2">
-                                 <input type="color" class="form-control form-control-color" name="color" />
+                              <div class="col-sm-3">
+                                 <input type="text" class="form-control" id="stroke" placeholder="fill" value="500" />
                               </div>
                               <div class="col-sm-2">
+                                 <input type="color" class="form-control form-control-color" id="stroke-color" name="color" />
+                              </div>
+                              <div class="col-sm-2">
+                                 <label class="col-form-label">opacity</label>
+                              </div>
+                              <div class="col-sm-2">
+                                 <input type="text" class="form-control" id="stroke-opacity" placeholder="stroke-opacity" value="1" />
+                              </div>
+                           </div>
+
+                           <div class="row mb-2">
+                              <div class="col-sm-2 offset-1">
                                  <label class="col-form-label">width</label>
                               </div>
+                              <div class="col-sm-3">
+                                 <input type="text" class="form-control" id="stroke-width" placeholder="stroke-width" value="1" />
+                              </div>
+
                               <div class="col-sm-2">
-                                 <input type="text" class="form-control" id="fillopc" placeholder="fillopc" value="50" />
+                                 <label class="col-form-label">dash</label>
+                              </div>
+                              <div class="col-sm-3">
+                                 <select id="stroke-dash" class="form-control">
+                                    <option>-</option>
+                                    <option>ptn1</option>
+                                    <option>ptn2</option>
+                                    <option>ptn3</option>
+                                    <option>ptn4</option>
+                                 </select>
                               </div>
                            </div>
 
-                           <div class="row mb-3">
+                           <div class="row mb-2">
+                              <div class="col-sm-2 offset-1">
+                                 <label class="col-form-label">linecap</label>
+                              </div>
+                              <div class="col-sm-3">
+                                 <select id="shape" class="form-control">
+                                    <option>butt</option>
+                                    <option>round</option>
+                                    <option>square</option>
+                                 </select>
+                              </div>
                               <div class="col-sm-2">
-                                 <label class="col-form-label">stroke</label>
+                                 <label class="col-form-label">linejoin</label>
                               </div>
                               <div class="col-sm-3">
-                                 <input type="text" class="form-control" id="fill" placeholder="fill" value="500" />
-                              </div>
-                              <div class="col-sm-4">
-                                 <label class="col-form-label">stroke-width</label>
-                              </div>
-                              <div class="col-sm-3">
-                                 <input type="text" class="form-control" id="fillopc" placeholder="fillopc" value="500" />
+                                 <select id="shape" class="form-control">
+                                    <option>miter</option>
+                                    <option>arcs</option>
+                                    <option>bevel</option>
+                                    <option>miter-clip</option>
+                                    <option>round</option>
+                                 </select>
                               </div>
                            </div>
 
-                           <div class="row mb-3">
+                           <hr/>
+
+                           <div class="row mb-2">
                               <div class="col-sm-3">
                                  <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" id="inline_checkbox_1" value="1" checked />
@@ -326,7 +387,7 @@
                               </div>
                            </div>
 
-                           <div class="row mb-3">
+                           <div class="row mb-2">
                               <div class="col-sm-3">
                                  <label>
                                     <input type="checkbox" id="editPosition" checked="checked" />
@@ -355,7 +416,7 @@
 
                            <br />
 
-                           <div class="row mb-3">
+                           <div class="row mb-2">
                               <div class="col-sm-4">
                                  <label for="height" class="col-form-label">shape type</label>
                               </div>

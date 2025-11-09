@@ -28,6 +28,7 @@ export class Editor extends StdConstruct {
         this.selection.multiple = false;
 
         this.clipBoard = new ClipBoard(this);
+        this.svgAttrUpdate = new SvgAttrUpdate(this);
 
         this.box = new BoundingBox();
         this.box.className = "fillBox";
@@ -309,7 +310,7 @@ export class Editor extends StdConstruct {
         console.log(target[0].getAttribute("class"));  // org-class perso
         target[0].setAttribute("class", "");  // org-class perso
         target[0].setAttribute("fill", "red");
-        target[0].setAttribute("fill-opacity", "0.2");
+        target[0].setAttribute("fill-opacity", "1");
         target[0].setAttribute("stroke", "blue");
         target[0].setAttribute("stroke-width", "3");
         }
@@ -318,6 +319,12 @@ export class Editor extends StdConstruct {
         this.trigger("change", this.node, this._target);
         return this;
     }
+
+    up() {
+        this.update();
+        this.trigger("change", this.node, this._target);
+    }
+
     group() {
         const target = this.target();
         let g;
@@ -453,6 +460,134 @@ Editor.prototype.list = null;
 
 if (Object.defineProperty) {
     try {} catch (e) {}
+}
+
+class SvgAttrUpdate extends StdConstruct {
+    constructor(editorObject) {
+        super();
+        this.editor = editorObject;
+	this.svgAttrGet = document.querySelector("#svgAttrGet")
+	this.svgAttrSet = document.querySelector("#svgAttrSet")
+	this.svgAttrSet.addEventListener("click",  this.set);
+	this.svgAttrGet.addEventListener("click",  this.get);
+
+	this.input_fill = document.querySelector("#fill")
+	this.input_fill.addEventListener("input", this.fill);
+
+	this.input_fillColor = document.querySelector("#fill-color")
+	this.input_fillColor.addEventListener("input", this.fillColor);
+
+	this.input_fillOpacity = document.querySelector("#fill-opacity")
+	this.input_fillOpacity.addEventListener("input", this.fillOpacity);
+
+	this.input_fillFilter = document.querySelector("#fill-filter")
+	this.input_fillFilter.addEventListener("change", this.fillFilter);
+
+
+
+	this.input_stroke = document.querySelector("#stroke")
+	this.input_stroke.addEventListener("input", this.stroke);
+
+	this.input_strokeColor = document.querySelector("#stroke-color")
+	this.input_strokeColor.addEventListener("input", this.strokeColor);
+
+	this.input_strokeOpacity = document.querySelector("#stroke-opacity")
+	this.input_strokeOpacity.addEventListener("input", this.strokeOpacity);
+
+	this.input_strokeWidth = document.querySelector("#stroke-width")
+	this.input_strokeWidth.addEventListener("input", this.strokeWidth);
+
+	this.input_strokeDash = document.querySelector("#stroke-dash")
+	this.input_strokeDash.addEventListener("input", this.strokeDash);
+    }
+
+    target() {
+        const target = this.editor.target()
+        if (!target) return null;
+        return target[0]
+    }
+    update() {
+        this.editor.up()
+    }
+
+    set() {
+      console.log("set");
+    }
+
+    get() {
+      console.log("get");
+    }
+
+    /** fill **/
+    fill = (event) => {
+       event.preventDefault(); 
+       this.setAttr("fill", this.input_fill.value);
+    }
+
+    fillColor = (event) => {
+       event.preventDefault(); 
+       this.setAttr("fill", this.input_fillColor.value);
+    }
+
+    fillOpacity = (event) => {
+       event.preventDefault(); 
+       this.setAttr("fill-opacity", this.input_fillOpacity.value);
+    }
+
+    fillFilter = (event) => {
+       event.preventDefault(); 
+       const filter_ptn = this.input_fillFilter.value;
+       let filter = "";
+       if (filter_ptn == "shadow1")   filter = "url(#shadow1)"
+       if (filter_ptn == "shadow2")   filter = "url(#shadow2)"
+       if (filter_ptn == "shadow3")   filter = "url(#shadow3)"
+
+       this.setAttr("filter", filter);
+    }
+
+    /** stroke **/
+    stroke = (event) => {
+       event.preventDefault(); 
+       this.setAttr("stroke", this.input_stroke.value);
+    }
+
+    strokeColor = (event) => {
+       event.preventDefault(); 
+       this.setAttr("stroke", this.input_strokeColor.value);
+    }
+
+    strokeOpacity = (event) => {
+       event.preventDefault(); 
+       this.setAttr("stroke-opacity", this.input_strokeOpacity.value);
+    }
+
+    strokeWidth = (event) => {
+       event.preventDefault(); 
+       this.setAttr("stroke-width", this.input_strokeWidth.value);
+    }
+
+    strokeDash = (event) => {
+       event.preventDefault(); 
+       const dash_ptn = this.input_strokeDash.value;
+       let dasharray = "";
+       if (dash_ptn == "ptn1")   dasharray = "4"
+       if (dash_ptn == "ptn2")   dasharray = "4 1"
+       if (dash_ptn == "ptn3")   dasharray = "4 1 2"
+       if (dash_ptn == "ptn4")   dasharray = "4 1 2 3"
+
+       this.setAttr("stroke-dasharray", dasharray);
+    }
+
+    setAttr( name, value) {
+	    console.log(name, value);
+        const targets = this.editor.target()
+        if (!targets) return null;
+        for ( let i = 0; i < targets.length ; i++) {
+          //targets[i].setAttribute("class", "");
+          targets[i].setAttribute(name, value);
+	}
+        this.update();
+    }
 }
 
 class ClipBoard extends StdConstruct {

@@ -238,7 +238,11 @@ window.addEventListener("DOMContentLoaded", function () {
         }
 
         const shape = new JSYG(`<${type}>`);
-        shape[0].classList.add("perso");
+        //shape[0].classList.add("perso");  //GUSA
+        shape[0].setAttribute("fill", "#ffffff");
+        shape[0].setAttribute("stroke", "#000000");
+        shape[0].setAttribute("stroke-width", "1");
+
 
         if (type == "text") svgEditor.enableInsertElement(shape);
         else svgEditor.enableShapeDrawer(shape);

@@ -1526,7 +1526,27 @@ export default class FullEditor extends JSYG {
             } else throw new Error("You need to specify width and height");
         }
 
-        const svg = new JSYG("<svg>").setDim({ width, height });
+        const defs = new JSYG(`
+ <defs>
+    <filter id="shadow1">
+      <feDropShadow dx="0.2" dy="0.4" stdDeviation="0.2" />
+    </filter>
+    <filter id="shadow2">
+      <feDropShadow dx="0" dy="0" stdDeviation="0.5" flood-color="cyan" />
+    </filter>
+    <filter id="shadow3">
+      <feDropShadow
+        dx="-0.8"
+        dy="-0.8"
+        stdDeviation="0"
+        flood-color="pink"
+        flood-opacity="0.5" />
+    </filter>
+  </defs>`);
+
+        //const svg = new JSYG("<svg>").setDim({ width, height });
+        const svg = new JSYG("<svg>").setDim({ width, height })
+        defs.appendTo_(svg);
 
         return this.loadXML(svg);
     }
