@@ -1527,7 +1527,7 @@ export default class FullEditor extends JSYG {
         }
 
         const defs = new JSYG(`
- <defs>
+   <defs>
     <filter id="shadow1">
       <feDropShadow dx="0.2" dy="0.4" stdDeviation="0.2" />
     </filter>
@@ -1544,10 +1544,24 @@ export default class FullEditor extends JSYG {
     </filter>
   </defs>`);
 
-        //const svg = new JSYG("<svg>").setDim({ width, height });
-        const svg = new JSYG("<svg>").setDim({ width, height })
-        defs.appendTo_(svg);
-
+        const svg = new JSYG("<svg>").setDim({ width, height });
+	    
+        //const svg = new JSYG("<svg>").setDim({ width, height })
+        //defs.appendTo_(svg);
+        //svg.append_(defs);
+         
+    const svgNamespace = "http://www.w3.org/2000/svg";
+    const defs_ = document.createElementNS(svgNamespace, "defs");
+    const fe = document.createElementNS(svgNamespace, "feDropShadow");
+    fe.setAttribute("dx","2");
+    fe.setAttribute("dy","4");
+    fe.setAttribute("stdDeviation","2");
+    const filter = document.createElementNS(svgNamespace, "filter");
+    filter.setAttribute("id","shadow1");
+    filter.appendChild(fe);
+    defs_.appendChild(filter);
+	    svg[0].appendChild(defs_);
+        //console.log(this.loadXML(svg));
         return this.loadXML(svg);
     }
 

@@ -157,6 +157,7 @@ export default function JSYG(arg, context) {
         "fePointLight",
         "feSpecularLighting",
         "feSpotLight",
+"feDropShadow",
         "feTile",
         "feTurbulence",
         "filter",
@@ -222,7 +223,6 @@ export default function JSYG(arg, context) {
             if (rsvgLink.test(arg)) array = [document.createElementNS(NS.svg, "a")];
             else {
                 ret = rsingleTag.exec(arg);
-
                 if (ret && svgTags.indexOf(ret[1]) !== -1)
                     array = [document.createElementNS(NS.svg, ret[1])];
             }
@@ -331,6 +331,7 @@ JSYG.svgTags = [
     "feDiffuseLighting",
     "feDisplacementMap",
     "feDistantLight",
+	"feDropShadow",  //GUSA
     "feFlood",
     "feFuncA",
     "feFuncB",
