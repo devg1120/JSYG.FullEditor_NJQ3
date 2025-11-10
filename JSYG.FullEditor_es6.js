@@ -1544,24 +1544,46 @@ export default class FullEditor extends JSYG {
     </filter>
   </defs>`);
 
-        const svg = new JSYG("<svg>").setDim({ width, height });
+    const svg = new JSYG("<svg>").setDim({ width, height });
 	    
         //const svg = new JSYG("<svg>").setDim({ width, height })
         //defs.appendTo_(svg);
         //svg.append_(defs);
          
-    const svgNamespace = "http://www.w3.org/2000/svg";
-    const defs_ = document.createElementNS(svgNamespace, "defs");
-    const fe = document.createElementNS(svgNamespace, "feDropShadow");
-    fe.setAttribute("dx","2");
-    fe.setAttribute("dy","4");
-    fe.setAttribute("stdDeviation","2");
-    const filter = document.createElementNS(svgNamespace, "filter");
-    filter.setAttribute("id","shadow1");
-    filter.appendChild(fe);
-    defs_.appendChild(filter);
-	    svg[0].appendChild(defs_);
-        //console.log(this.loadXML(svg));
+        const svgNamespace = "http://www.w3.org/2000/svg";
+        const defs_ = document.createElementNS(svgNamespace, "defs");
+
+        let fe = document.createElementNS(svgNamespace, "feDropShadow");
+        fe.setAttribute("dx","2");
+        fe.setAttribute("dy","4");
+        fe.setAttribute("stdDeviation","2");
+        let filter = document.createElementNS(svgNamespace, "filter");
+        filter.setAttribute("id","shadow1");
+        filter.appendChild(fe);
+        defs_.appendChild(filter);
+
+        fe = document.createElementNS(svgNamespace, "feDropShadow");
+        fe.setAttribute("dx","0");
+        fe.setAttribute("dy","0");
+        fe.setAttribute("stdDeviation","5");
+        fe.setAttribute("flood-color","cyan");
+        filter = document.createElementNS(svgNamespace, "filter");
+        filter.setAttribute("id","shadow2");
+        filter.appendChild(fe);
+        defs_.appendChild(filter);
+
+        fe = document.createElementNS(svgNamespace, "feDropShadow");
+        fe.setAttribute("dx","-8");
+        fe.setAttribute("dy","-8");
+        fe.setAttribute("stdDeviation","0");
+        fe.setAttribute("flood-color","pink");
+        fe.setAttribute("flood-cpacity","5");
+        filter = document.createElementNS(svgNamespace, "filter");
+        filter.setAttribute("id","shadow3");
+        filter.appendChild(fe);
+        defs_.appendChild(filter);
+
+        svg[0].appendChild(defs_);
         return this.loadXML(svg);
     }
 
