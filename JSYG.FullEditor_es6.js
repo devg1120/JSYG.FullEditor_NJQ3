@@ -1146,6 +1146,12 @@ export default class FullEditor extends JSYG {
 
         return this;
     }
+   connector(type) {
+	//   console.log(this.getDocument());
+        this.shapeEditor.connector(this.getDocument());
+
+        return this;
+    }
 
     target(value) {
         if (value == null) {
@@ -1539,7 +1545,7 @@ export default class FullEditor extends JSYG {
         dx="-0.8"
         dy="-0.8"
         stdDeviation="0"
-        flood-color="pink"
+        lood-color="pink"
         flood-opacity="0.5" />
     </filter>
   </defs>`);

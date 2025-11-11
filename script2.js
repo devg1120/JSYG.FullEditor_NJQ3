@@ -118,6 +118,17 @@ window.addEventListener("DOMContentLoaded", function () {
         target.addEventListener(eventName, handler, false);
     }
 
+    selector = "#setConnector";
+    eventName = "click";
+    handler = () => {
+        svgEditor.connector();
+    };
+    target = document.querySelector(selector);
+    if (target) {
+        target.addEventListener(eventName, handler, false);
+    }
+
+
     selector = "#svgAttrSet";
     eventName = "click";
     handler = () => {

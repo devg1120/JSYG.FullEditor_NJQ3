@@ -320,6 +320,21 @@ export class Editor extends StdConstruct {
         return this;
     }
 
+    connector(svg) {
+        const target = this.target();
+        if (!target) return this;
+        if (target.length != 2) return this;
+	console.log("set connector" , svg);
+	const connector = new Connector(this,svg, target[0] , target[1]);
+
+        //let line = connector.getLine();
+        //const svg = document.querySelector("#containerDoc > svg");
+        //svg.appendChild(line);
+
+        //this.update();
+        //this.trigger("change", this.node, this._target);
+    }
+
     up() {
         this.update();
         this.trigger("change", this.node, this._target);
@@ -460,6 +475,80 @@ Editor.prototype.list = null;
 
 if (Object.defineProperty) {
     try {} catch (e) {}
+}
+
+class Connector extends StdConstruct {
+    constructor(editor, svg, from, to) {
+        super();
+        this.editor = editor;
+        this.svg = svg;
+        this.node1 = from;
+        this.node2 = to;
+
+/*
+ <line fill="#ffffff" stroke="#000000" stroke-width="1" x1="178.80528259277344" y1="238.88331604003906" x2="238.55137634277344" y2="255.4794464111328"></line>
+ */
+        const svgNamespace = "http://www.w3.org/2000/svg";
+        this.line = document.createElementNS(svgNamespace, "line");
+        this.updateConnection()
+/*
+        this.line.setAttributeNS(null, 'x1', "178");
+        this.line.setAttributeNS(null, 'y1', "238");
+        this.line.setAttributeNS(null, 'x2', "238");
+        this.line.setAttributeNS(null, 'y2', "255");
+*/
+        this.line.setAttributeNS(null, 'stroke', 'black');
+        this.line.setAttributeNS(null, 'strok-width', '3');
+
+        this.svg.appendChild(this.line);
+
+    }
+    getLine() {
+       return this.line
+    }
+
+updateConnection() {
+  // Top left coordinates
+  var x1 = parseFloat(this.node1.getAttributeNS(null, 'x'));
+  var y1 = parseFloat(this.node1.getAttributeNS(null, 'y'));
+  var x2 = parseFloat(this.node2.getAttributeNS(null, 'x'));
+  var y2 = parseFloat(this.node2.getAttributeNS(null, 'y'));
+   console.log(x1,y1,x2,y2)
+  // Half widths and half heights
+  var w1 = parseFloat(this.node1.getAttributeNS(null, 'width')) / 2;
+  var h1 = parseFloat(this.node1.getAttributeNS(null, 'height')) / 2;
+  var w2 = parseFloat(this.node2.getAttributeNS(null, 'width')) / 2;
+  var h2 = parseFloat(this.node2.getAttributeNS(null, 'height')) / 2;
+
+  // Center coordinates
+  var cx1 = x1 + w1;
+  var cy1 = y1 + h1;
+  var cx2 = x2 + w2;
+  var cy2 = y2 + h2;
+
+  // Distance between centers
+  var dx = cx2 - cx1;
+  var dy = cy2 - cy1;
+
+  var p1 = this.getIntersection(dx, dy, cx1, cy1, w1, h1);
+  var p2 = this.getIntersection(-dx, -dy, cx2, cy2, w2, h2);
+
+  this.line.setAttributeNS(null, 'x1', p1[0]);
+  this.line.setAttributeNS(null, 'y1', p1[1]);
+  this.line.setAttributeNS(null, 'x2', p2[0]);
+  this.line.setAttributeNS(null, 'y2', p2[1]);
+}
+
+getIntersection(dx, dy, cx, cy, w, h) {
+if (Math.abs(dy / dx) < h / w) {
+  // Hit vertical edge of box1
+  return [cx + (dx > 0 ? w : -w), cy + dy * w / Math.abs(dx)];
+ } else {
+  // Hit horizontal edge of box1
+  return [cx + dx * h / Math.abs(dy), cy + (dy > 0 ? h : -h)];
+  }
+};
+
 }
 
 class SvgAttrUpdate extends StdConstruct {

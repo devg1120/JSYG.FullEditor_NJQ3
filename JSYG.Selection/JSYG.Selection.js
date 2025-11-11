@@ -116,7 +116,15 @@ export class Selection extends StdConstruct {
 
         if (this.resizableOptions) resize.set(this.resizableOptions);
 
+	    /*
+        resize.on("mousedown", e => {
+		console.log("mousedown");
+
+	});
+*/
+
         resize.on("dragstart", e => {
+		console.log("dragstart");
             each(list, function () {
                 //GUSA
 
@@ -208,6 +216,7 @@ export class Selection extends StdConstruct {
     }
 
     _getTarget(e) {
+	    /*
         let list = document.querySelectorAll(this.list); //GUSA
         const child = new JSYG(e.target);
         let target = null;
@@ -220,6 +229,26 @@ export class Selection extends StdConstruct {
         });
 
         return target;
+*/
+
+        var list = new JSYG(this.list);
+        
+        let list_ = document.querySelectorAll(this.list); //GUSA
+
+        if (Array.from(list_).indexOf(e.target) !== -1) {
+                 return e.target
+	}
+
+        
+        var child = new JSYG(e.target),
+        target = null;
+        
+        list.each(function() {
+            if (child.isChildOf(this)) { target = this; return false; }
+        });
+        
+        return target;
+
     }
 
     _isIn({target}) {
@@ -280,6 +309,7 @@ export class Selection extends StdConstruct {
 
         const fcts = {
             mousedown(e) {
+		    console.log("mousedown");
                 if (e.which != 1) return;
 
                 if (
@@ -342,6 +372,11 @@ export class Selection extends StdConstruct {
 
         const fcts2 = {
             mousedown(e) {
+		console.log("mousedown");
+                //const child = new JSYG(e.target);
+
+                //that.setSelection(child, e);
+
                 mousedown_ = true;
 
                 if (e.which != 1) return;
@@ -354,7 +389,8 @@ export class Selection extends StdConstruct {
 
                 that.clearNativeSelection();
 
-                const cible = that._getTarget(e);
+               const cible = that._getTarget(e);
+		    console.log(cible);
 
                 if (cible) {
                     if (that.trigger("beforeselect", that.node, e, cible) !== false) {
@@ -363,14 +399,17 @@ export class Selection extends StdConstruct {
                 } else if (!that.node || that._isIn(e)) {
                     drawing = true;
                 }
+		console.log("mousedown end");
             },
 
             "drag:start": function (e) {
+		console.log("drag:start");
                 if (that.multiple && that.trigger("beforedrag", that.node, e) !== false) that._draw(e);
                 else drawing = false;
             },
 
             mousemove(e) {
+		//console.log("mousemove");
                 if (mousedown_ && !dragging_) {
                     dragging_ = true;
 
@@ -402,6 +441,7 @@ export class Selection extends StdConstruct {
             },
 
             mouseout(e) {
+		//console.log("mouseout");
                 if (drawing) return;
 
                 const lastOver = that.selectedOver[0];
