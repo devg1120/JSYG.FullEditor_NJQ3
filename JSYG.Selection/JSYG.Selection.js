@@ -372,7 +372,7 @@ export class Selection extends StdConstruct {
 
         const fcts2 = {
             mousedown(e) {
-		console.log("mousedown");
+		//console.log("mousedown");
                 //const child = new JSYG(e.target);
 
                 //that.setSelection(child, e);
@@ -399,11 +399,11 @@ export class Selection extends StdConstruct {
                 } else if (!that.node || that._isIn(e)) {
                     drawing = true;
                 }
-		console.log("mousedown end");
+		//console.log("mousedown end");
             },
 
             "drag:start": function (e) {
-		console.log("drag:start");
+		//console.log("drag:start");
                 if (that.multiple && that.trigger("beforedrag", that.node, e) !== false) that._draw(e);
                 else drawing = false;
             },
