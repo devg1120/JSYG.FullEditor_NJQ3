@@ -2926,10 +2926,32 @@ JSYG.prototype.toSVGString = function (standalone, imagesQuality) {
     });
 };
 
-JSYG.prototype.toDataURL = function (standalone, imagesQuality) {
+JSYG.prototype.toDataURL_old = function (standalone, imagesQuality) {
     return this.toSVGString(standalone, imagesQuality).then(function (svg) {
         return "data:image/svg+xml;base64," + strUtils.base64encode(svg);
     });
+};
+
+
+
+function formatXml(xml) { // tab = optional indent value, default is tab (\t)
+    var formatted = '', indent= '';
+    let tab = '  ';
+    xml.split(/>\s*</).forEach(function(node) {
+        if (node.match( /^\/\w/ )) indent = indent.substring(tab.length); // decrease indent by one 'tab'
+        formatted += indent + '<' + node + '>\r\n';
+        if (node.match( /^<?\w[^>]*[^\/]$/ )) indent += tab;              // increase indent
+    });
+    return formatted.substring(1, formatted.length-3);
+}
+
+
+JSYG.prototype.toDataURL = function (standalone, imagesQuality) {
+    let data = this.toSVGString(standalone, imagesQuality).then(function (svg) {
+	//console.log(svg);
+        return "data:image/svg+xml;base64," + strUtils.base64encode(formatXml(svg));   //GUSA
+    });
+    return data;
 };
 
 JSYG.prototype.url2data = function (recursive, format, quality) {

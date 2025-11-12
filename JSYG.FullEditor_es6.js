@@ -667,6 +667,18 @@ export default class FullEditor extends JSYG {
 
         if (modele) this.shapeDrawerModel = modele;
 
+        function guid_() {
+          const timestamp = new Date().getTime().toString(); 
+          const randomString = Math.random().toString(36).substr(2, 7); // ランダムな文字列
+          return timestamp + "_" + randomString;
+        }
+
+        function guid() {
+          const timestamp = new Date().getTime().toString().substr(5,20)
+          const randomString = Math.random().toString(36).substr(2, 7); // ランダムな文字列
+          return timestamp + "-" + randomString;
+        }
+
         function onmousedown(e) {
             if (
                 that.pathDrawer.inProgress ||
@@ -683,7 +695,11 @@ export default class FullEditor extends JSYG {
 
             const shape = new JSYG(new JSYG(modele)[0].cloneNode());
             console.log(that._getLayerSelector());
+            console.log(shape );
+
             let target = document.querySelectorAll(that._getLayerSelector());
+            //shape[0].setAttributeNS(null, 'cid', guid());
+
             target[0].appendChild(shape[0]);
             const tag = shape.getTag();
             let drawer;

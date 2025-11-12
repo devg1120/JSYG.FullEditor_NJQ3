@@ -126,14 +126,14 @@ export class Editor extends StdConstruct {
 
     set list(list) {
         this._list = list;
-        if (this.selection) {  //ES6FIX
-           this.selection.list = this._list;
-	}
+        if (this.selection) {
+            //ES6FIX
+            this.selection.list = this._list;
+        }
     }
 
     hide(e, _preventEvent) {
-        if (!_preventEvent && this.trigger("beforehide", this.node, e, this._target) === false)
-            return this;
+        if (!_preventEvent && this.trigger("beforehide", this.node, e, this._target) === false) return this;
 
         this.box.hide();
 
@@ -160,8 +160,7 @@ export class Editor extends StdConstruct {
     }
 
     show(e, _preventEvent) {
-        if (!_preventEvent && this.trigger("beforeshow", this.node, e, this._target) === false)
-            return this;
+        if (!_preventEvent && this.trigger("beforeshow", this.node, e, this._target) === false) return this;
 
         if (this.isMultiSelection()) this.target(this._oldTargets, _preventEvent);
 
@@ -219,7 +218,7 @@ export class Editor extends StdConstruct {
             ctrlsToEnable = JSYG.makeArray(args);
         }
 
-        ctrlsToEnable.forEach(ctrl => {
+        ctrlsToEnable.forEach((ctrl) => {
             that[`ctrls${JSYG.ucfirst(ctrl)}`].enable();
         });
 
@@ -232,7 +231,7 @@ export class Editor extends StdConstruct {
         } else {
             const that = this;
 
-            JSYG.makeArray(args).forEach(arg => {
+            JSYG.makeArray(args).forEach((arg) => {
                 const ctrl = that[`ctrls${JSYG.ucfirst(arg)}`];
                 if (ctrl) ctrl.disable();
             });
@@ -257,19 +256,19 @@ export class Editor extends StdConstruct {
         const target = this.target();
         if (!target) return this;
         if (target.length == 0) return this;
-	console.log("svgAttr", target.length);
+        console.log("svgAttr", target.length);
         let jNode = new JSYG(target[0]);
         if (!jNode.isSVG()) return;
         const tag = jNode.getTag();
         console.log(tag);
-        if ( tag === "rect" ) {
-           let c = target[0].getAttribute("class");
-           let f = target[0].getAttribute("fill");
-           let fo = target[0].getAttribute("fill-opacity");
-           let s = target[0].getAttribute("stroke");
-           let sw = target[0].getAttribute("stroke-width");
+        if (tag === "rect") {
+            let c = target[0].getAttribute("class");
+            let f = target[0].getAttribute("fill");
+            let fo = target[0].getAttribute("fill-opacity");
+            let s = target[0].getAttribute("stroke");
+            let sw = target[0].getAttribute("stroke-width");
 
-          console.log(c,f,fo,s,sw);
+            console.log(c, f, fo, s, sw);
         }
     }
 
@@ -277,25 +276,25 @@ export class Editor extends StdConstruct {
         const target = this.target();
         if (!target) return this;
         if (target.length == 0) return this;
-	console.log("svgAttrGet", target.length);
+        console.log("svgAttrGet", target.length);
         let jNode = new JSYG(target[0]);
         if (!jNode.isSVG()) return;
         const tag = jNode.getTag();
         console.log(tag);
-        if ( tag === "rect" ) {
-           let c = target[0].getAttribute("class");
-           let f = target[0].getAttribute("fill");
-           let fo = target[0].getAttribute("fill-opacity");
-           let s = target[0].getAttribute("stroke");
-           let sw = target[0].getAttribute("stroke-width");
+        if (tag === "rect") {
+            let c = target[0].getAttribute("class");
+            let f = target[0].getAttribute("fill");
+            let fo = target[0].getAttribute("fill-opacity");
+            let s = target[0].getAttribute("stroke");
+            let sw = target[0].getAttribute("stroke-width");
 
-          console.log(c,f,fo,s,sw);
+            console.log(c, f, fo, s, sw);
         }
     }
     color() {
         const target = this.target();
         if (target.length == 0) return this;
-	console.log("set color", target[0]);
+        console.log("set color", target[0]);
 
         let jNode = new JSYG(target[0]);
         if (!jNode.isSVG()) return;
@@ -304,15 +303,15 @@ export class Editor extends StdConstruct {
         const CTM = jNode.getMtx(svg);
         const tag = jNode.getTag();
         console.log(tag);
-        if ( tag === "rect" ) {
-	    // perso
-	    //
-        console.log(target[0].getAttribute("class"));  // org-class perso
-        target[0].setAttribute("class", "");  // org-class perso
-        target[0].setAttribute("fill", "red");
-        target[0].setAttribute("fill-opacity", "1");
-        target[0].setAttribute("stroke", "blue");
-        target[0].setAttribute("stroke-width", "3");
+        if (tag === "rect") {
+            // perso
+            //
+            console.log(target[0].getAttribute("class")); // org-class perso
+            target[0].setAttribute("class", ""); // org-class perso
+            target[0].setAttribute("fill", "red");
+            target[0].setAttribute("fill-opacity", "1");
+            target[0].setAttribute("stroke", "blue");
+            target[0].setAttribute("stroke-width", "3");
         }
 
         this.update();
@@ -324,8 +323,8 @@ export class Editor extends StdConstruct {
         const target = this.target();
         if (!target) return this;
         if (target.length != 2) return this;
-	console.log("set connector" , svg);
-	const connector = new Connector(this,svg, target[0] , target[1]);
+        console.log("set connector", svg);
+        const connector = new Connector(this, svg, target[0], target[1]);
         target[0].connector = connector;
         target[1].connector = connector;
 
@@ -397,9 +396,8 @@ export class Editor extends StdConstruct {
         if (!this._list) this.list = "*";
 
         selectFcts = {
-            "beforedeselect beforedrag": function({target}) {
-                if (target == that.container || new JSYG(target).isChildOf(that.container))
-                    return false;
+            "beforedeselect beforedrag": function ({ target }) {
+                if (target == that.container || new JSYG(target).isChildOf(that.container)) return false;
             },
 
             selectover(e, elmt) {
@@ -476,7 +474,14 @@ Editor.prototype.onchange = null;
 Editor.prototype.list = null;
 
 if (Object.defineProperty) {
-    try {} catch (e) {}
+    try {
+    } catch (e) {}
+}
+
+function guid() {
+  const timestamp = new Date().getTime().toString().substr(5,20)
+  const randomString = Math.random().toString(36).substr(2, 7); // ランダムな文字列
+  return timestamp + "-" + randomString;
 }
 
 class Connector extends StdConstruct {
@@ -486,197 +491,203 @@ class Connector extends StdConstruct {
         this.svg = svg;
         this.node1 = from;
         this.node2 = to;
+        console.log("connector init: ", from, to);
 
-/*
+        /*
  <line fill="#ffffff" stroke="#000000" stroke-width="1" x1="178.80528259277344" y1="238.88331604003906" x2="238.55137634277344" y2="255.4794464111328"></line>
+
+ <polyline points="0,100 50,25 50,75 100,0" />
+
  */
         const svgNamespace = "http://www.w3.org/2000/svg";
         this.line = document.createElementNS(svgNamespace, "line");
-        this.updateConnection()
-/*
+        this.updateConnection();
+        /*
         this.line.setAttributeNS(null, 'x1', "178");
         this.line.setAttributeNS(null, 'y1', "238");
         this.line.setAttributeNS(null, 'x2', "238");
         this.line.setAttributeNS(null, 'y2', "255");
 */
-        this.line.setAttributeNS(null, 'stroke', 'black');
-        this.line.setAttributeNS(null, 'strok-width', '3');
+        this.line.setAttributeNS(null, "stroke", "black");
+        this.line.setAttributeNS(null, "strok-width", "3");
 
         this.svg.appendChild(this.line);
-
+        const id1= guid();
+        const id2= guid();
+        this.node1.setAttributeNS(null, 'cid', id1);
+        this.node2.setAttributeNS(null, 'cid', id2);
+        this.line.setAttributeNS(null, 'from-id', id1);
+        this.line.setAttributeNS(null, 'to-id', id2);
     }
     getLine() {
-       return this.line
+        return this.line;
     }
 
-updateConnection() {
-  // Top left coordinates
-  var x1 = parseFloat(this.node1.getAttributeNS(null, 'x'));
-  var y1 = parseFloat(this.node1.getAttributeNS(null, 'y'));
-  var x2 = parseFloat(this.node2.getAttributeNS(null, 'x'));
-  var y2 = parseFloat(this.node2.getAttributeNS(null, 'y'));
-   console.log(x1,y1,x2,y2)
-  // Half widths and half heights
-  var w1 = parseFloat(this.node1.getAttributeNS(null, 'width')) / 2;
-  var h1 = parseFloat(this.node1.getAttributeNS(null, 'height')) / 2;
-  var w2 = parseFloat(this.node2.getAttributeNS(null, 'width')) / 2;
-  var h2 = parseFloat(this.node2.getAttributeNS(null, 'height')) / 2;
+    updateConnection() {
+        // Top left coordinates
+        var x1 = parseFloat(this.node1.getAttributeNS(null, "x"));
+        var y1 = parseFloat(this.node1.getAttributeNS(null, "y"));
+        var x2 = parseFloat(this.node2.getAttributeNS(null, "x"));
+        var y2 = parseFloat(this.node2.getAttributeNS(null, "y"));
+        
+        // Half widths and half heights
+        var w1 = parseFloat(this.node1.getAttributeNS(null, "width")) / 2;
+        var h1 = parseFloat(this.node1.getAttributeNS(null, "height")) / 2;
+        var w2 = parseFloat(this.node2.getAttributeNS(null, "width")) / 2;
+        var h2 = parseFloat(this.node2.getAttributeNS(null, "height")) / 2;
 
-  // Center coordinates
-  var cx1 = x1 + w1;
-  var cy1 = y1 + h1;
-  var cx2 = x2 + w2;
-  var cy2 = y2 + h2;
+        // Center coordinates
+        var cx1 = x1 + w1;
+        var cy1 = y1 + h1;
+        var cx2 = x2 + w2;
+        var cy2 = y2 + h2;
 
-  // Distance between centers
-  var dx = cx2 - cx1;
-  var dy = cy2 - cy1;
+        // Distance between centers
+        var dx = cx2 - cx1;
+        var dy = cy2 - cy1;
 
-  var p1 = this.getIntersection(dx, dy, cx1, cy1, w1, h1);
-  var p2 = this.getIntersection(-dx, -dy, cx2, cy2, w2, h2);
+        var p1 = this.getIntersection(dx, dy, cx1, cy1, w1, h1);
+        var p2 = this.getIntersection(-dx, -dy, cx2, cy2, w2, h2);
 
-  this.line.setAttributeNS(null, 'x1', p1[0]);
-  this.line.setAttributeNS(null, 'y1', p1[1]);
-  this.line.setAttributeNS(null, 'x2', p2[0]);
-  this.line.setAttributeNS(null, 'y2', p2[1]);
-}
+        this.line.setAttributeNS(null, "x1", p1[0]);
+        this.line.setAttributeNS(null, "y1", p1[1]);
+        this.line.setAttributeNS(null, "x2", p2[0]);
+        this.line.setAttributeNS(null, "y2", p2[1]);
+    }
 
-getIntersection(dx, dy, cx, cy, w, h) {
-if (Math.abs(dy / dx) < h / w) {
-  // Hit vertical edge of box1
-  return [cx + (dx > 0 ? w : -w), cy + dy * w / Math.abs(dx)];
- } else {
-  // Hit horizontal edge of box1
-  return [cx + dx * h / Math.abs(dy), cy + (dy > 0 ? h : -h)];
-  }
-};
-
+    getIntersection(dx, dy, cx, cy, w, h) {
+        if (Math.abs(dy / dx) < h / w) {
+            // Hit vertical edge of box1
+            return [cx + (dx > 0 ? w : -w), cy + (dy * w) / Math.abs(dx)];
+        } else {
+            // Hit horizontal edge of box1
+            return [cx + (dx * h) / Math.abs(dy), cy + (dy > 0 ? h : -h)];
+        }
+    }
 }
 
 class SvgAttrUpdate extends StdConstruct {
     constructor(editorObject) {
         super();
         this.editor = editorObject;
-	this.svgAttrGet = document.querySelector("#svgAttrGet")
-	this.svgAttrSet = document.querySelector("#svgAttrSet")
-	this.svgAttrSet.addEventListener("click",  this.set);
-	this.svgAttrGet.addEventListener("click",  this.get);
+        this.svgAttrGet = document.querySelector("#svgAttrGet");
+        this.svgAttrSet = document.querySelector("#svgAttrSet");
+        this.svgAttrSet.addEventListener("click", this.set);
+        this.svgAttrGet.addEventListener("click", this.get);
 
-	this.input_fill = document.querySelector("#fill")
-	this.input_fill.addEventListener("input", this.fill);
+        this.input_fill = document.querySelector("#fill");
+        this.input_fill.addEventListener("input", this.fill);
 
-	this.input_fillColor = document.querySelector("#fill-color")
-	this.input_fillColor.addEventListener("input", this.fillColor);
+        this.input_fillColor = document.querySelector("#fill-color");
+        this.input_fillColor.addEventListener("input", this.fillColor);
 
-	this.input_fillOpacity = document.querySelector("#fill-opacity")
-	this.input_fillOpacity.addEventListener("input", this.fillOpacity);
+        this.input_fillOpacity = document.querySelector("#fill-opacity");
+        this.input_fillOpacity.addEventListener("input", this.fillOpacity);
 
-	this.input_fillFilter = document.querySelector("#fill-filter")
-	this.input_fillFilter.addEventListener("change", this.fillFilter);
+        this.input_fillFilter = document.querySelector("#fill-filter");
+        this.input_fillFilter.addEventListener("change", this.fillFilter);
 
+        this.input_stroke = document.querySelector("#stroke");
+        this.input_stroke.addEventListener("input", this.stroke);
 
+        this.input_strokeColor = document.querySelector("#stroke-color");
+        this.input_strokeColor.addEventListener("input", this.strokeColor);
 
-	this.input_stroke = document.querySelector("#stroke")
-	this.input_stroke.addEventListener("input", this.stroke);
+        this.input_strokeOpacity = document.querySelector("#stroke-opacity");
+        this.input_strokeOpacity.addEventListener("input", this.strokeOpacity);
 
-	this.input_strokeColor = document.querySelector("#stroke-color")
-	this.input_strokeColor.addEventListener("input", this.strokeColor);
+        this.input_strokeWidth = document.querySelector("#stroke-width");
+        this.input_strokeWidth.addEventListener("input", this.strokeWidth);
 
-	this.input_strokeOpacity = document.querySelector("#stroke-opacity")
-	this.input_strokeOpacity.addEventListener("input", this.strokeOpacity);
-
-	this.input_strokeWidth = document.querySelector("#stroke-width")
-	this.input_strokeWidth.addEventListener("input", this.strokeWidth);
-
-	this.input_strokeDash = document.querySelector("#stroke-dash")
-	this.input_strokeDash.addEventListener("input", this.strokeDash);
+        this.input_strokeDash = document.querySelector("#stroke-dash");
+        this.input_strokeDash.addEventListener("input", this.strokeDash);
     }
 
     target() {
-        const target = this.editor.target()
+        const target = this.editor.target();
         if (!target) return null;
-        return target[0]
+        return target[0];
     }
     update() {
-        this.editor.up()
+        this.editor.up();
     }
 
     set() {
-      console.log("set");
+        console.log("set");
     }
 
     get() {
-      console.log("get");
+        console.log("get");
     }
 
     /** fill **/
     fill = (event) => {
-       event.preventDefault(); 
-       this.setAttr("fill", this.input_fill.value);
-    }
+        event.preventDefault();
+        this.setAttr("fill", this.input_fill.value);
+    };
 
     fillColor = (event) => {
-       event.preventDefault(); 
-       this.setAttr("fill", this.input_fillColor.value);
-    }
+        event.preventDefault();
+        this.setAttr("fill", this.input_fillColor.value);
+    };
 
     fillOpacity = (event) => {
-       event.preventDefault(); 
-       this.setAttr("fill-opacity", this.input_fillOpacity.value);
-    }
+        event.preventDefault();
+        this.setAttr("fill-opacity", this.input_fillOpacity.value);
+    };
 
     fillFilter = (event) => {
-       event.preventDefault(); 
-       const filter_ptn = this.input_fillFilter.value;
-       let filter = "";
-       if (filter_ptn == "shadow1")   filter = "url(#shadow1)"
-       if (filter_ptn == "shadow2")   filter = "url(#shadow2)"
-       if (filter_ptn == "shadow3")   filter = "url(#shadow3)"
+        event.preventDefault();
+        const filter_ptn = this.input_fillFilter.value;
+        let filter = "";
+        if (filter_ptn == "shadow1") filter = "url(#shadow1)";
+        if (filter_ptn == "shadow2") filter = "url(#shadow2)";
+        if (filter_ptn == "shadow3") filter = "url(#shadow3)";
 
-       this.setAttr("filter", filter);
-    }
+        this.setAttr("filter", filter);
+    };
 
     /** stroke **/
     stroke = (event) => {
-       event.preventDefault(); 
-       this.setAttr("stroke", this.input_stroke.value);
-    }
+        event.preventDefault();
+        this.setAttr("stroke", this.input_stroke.value);
+    };
 
     strokeColor = (event) => {
-       event.preventDefault(); 
-       this.setAttr("stroke", this.input_strokeColor.value);
-    }
+        event.preventDefault();
+        this.setAttr("stroke", this.input_strokeColor.value);
+    };
 
     strokeOpacity = (event) => {
-       event.preventDefault(); 
-       this.setAttr("stroke-opacity", this.input_strokeOpacity.value);
-    }
+        event.preventDefault();
+        this.setAttr("stroke-opacity", this.input_strokeOpacity.value);
+    };
 
     strokeWidth = (event) => {
-       event.preventDefault(); 
-       this.setAttr("stroke-width", this.input_strokeWidth.value);
-    }
+        event.preventDefault();
+        this.setAttr("stroke-width", this.input_strokeWidth.value);
+    };
 
     strokeDash = (event) => {
-       event.preventDefault(); 
-       const dash_ptn = this.input_strokeDash.value;
-       let dasharray = "";
-       if (dash_ptn == "ptn1")   dasharray = "4"
-       if (dash_ptn == "ptn2")   dasharray = "4 1"
-       if (dash_ptn == "ptn3")   dasharray = "4 1 2"
-       if (dash_ptn == "ptn4")   dasharray = "4 1 2 3"
+        event.preventDefault();
+        const dash_ptn = this.input_strokeDash.value;
+        let dasharray = "";
+        if (dash_ptn == "ptn1") dasharray = "4";
+        if (dash_ptn == "ptn2") dasharray = "4 1";
+        if (dash_ptn == "ptn3") dasharray = "4 1 2";
+        if (dash_ptn == "ptn4") dasharray = "4 1 2 3";
 
-       this.setAttr("stroke-dasharray", dasharray);
-    }
+        this.setAttr("stroke-dasharray", dasharray);
+    };
 
-    setAttr( name, value) {
-	    console.log(name, value);
-        const targets = this.editor.target()
+    setAttr(name, value) {
+        console.log(name, value);
+        const targets = this.editor.target();
         if (!targets) return null;
-        for ( let i = 0; i < targets.length ; i++) {
-          //targets[i].setAttribute("class", "");
-          targets[i].setAttribute(name, value);
-	}
+        for (let i = 0; i < targets.length; i++) {
+            //targets[i].setAttribute("class", "");
+            targets[i].setAttribute(name, value);
+        }
         this.update();
     }
 }
@@ -865,7 +876,7 @@ CtrlPoints.prototype = {
         const elmts = ["pt1", "path1", "pt2", "path2"];
         const that = this;
 
-        elmts.forEach(elmt => {
+        elmts.forEach((elmt) => {
             if (that.list[i][elmt]) new JSYG(that.list[i][elmt]).remove();
         });
 
@@ -912,31 +923,31 @@ CtrlPoints.prototype = {
         const tag = jNode.getTag();
 
         const // JSYG.support.needReplaceSeg, ne fonctionne pas avec le polyfill pathseg, je ne comprends pas pourquoi
-        needReplace = true;
+            needReplace = true;
 
         let list = [];
         let N;
         const that = this;
 
-        const start = e => {
+        const start = (e) => {
             new JSYG(that.container).appendTo(that.editor.box.container);
             that.editor.trigger("start", node, e);
             that.trigger("start", node, e);
         };
 
-        const dragstart = e => {
+        const dragstart = (e) => {
             that.editor.trigger("dragstart", node, e);
             that.trigger("dragstart", node, e);
         };
 
-        const dragend = e => {
+        const dragend = (e) => {
             that.editor.update();
             that.editor.trigger("dragend", node, e);
             that.editor.trigger("change", node, e);
             that.trigger("dragend", node, e);
         };
 
-        const end = e => {
+        const end = (e) => {
             that.editor.trigger("end", node, e);
             that.trigger("end", node, e);
         };
@@ -950,8 +961,8 @@ CtrlPoints.prototype = {
 
             jPath.rel2abs();
 
-            list = jPath.getSegList().map(seg => ({
-                seg
+            list = jPath.getSegList().map((seg) => ({
+                seg,
             }));
 
             list.forEach((item, i) => {
@@ -1000,16 +1011,11 @@ CtrlPoints.prototype = {
                                 const prevSeg = list[i - 1].seg;
 
                                 if (prevSeg.x2 != null && prevSeg.y2 != null) {
-                                    const angle =
-                                            Math.atan2(seg.y1 - prevSeg.y, seg.x1 - prevSeg.x) +
-                                            Math.PI;
+                                    const angle = Math.atan2(seg.y1 - prevSeg.y, seg.x1 - prevSeg.x) + Math.PI;
 
                                     const path2 = new Path(that.list[i - 1].path2);
 
-                                    const dist = Math.sqrt(
-                                        (prevSeg.x2 - prevSeg.x) ** 2 +
-                                            (prevSeg.y2 - prevSeg.y) ** 2,
-                                    );
+                                    const dist = Math.sqrt((prevSeg.x2 - prevSeg.x) ** 2 + (prevSeg.y2 - prevSeg.y) ** 2);
 
                                     const x2 = prevSeg.x2;
                                     prevSeg.x2 = prevSeg.x + dist * Math.cos(angle);
@@ -1057,8 +1063,7 @@ CtrlPoints.prototype = {
                                 onend: end,
                             });
 
-                            if (that.draggableOptions)
-                                jShape.draggable("set", that.draggableOptions);
+                            if (that.draggableOptions) jShape.draggable("set", that.draggableOptions);
 
                             jShape.draggable("enable");
 
@@ -1097,8 +1102,8 @@ CtrlPoints.prototype = {
                             const jShape = new JSYG(this);
 
                             const //oldX = seg.x2,
-                            //oldY = seg.y2,
-                            center = jShape.getCenter();
+                                //oldY = seg.y2,
+                                center = jShape.getCenter();
 
                             let pt = new JSYG.Vect(center.x, center.y).mtx(jShape.getMtx(svg));
 
@@ -1112,15 +1117,11 @@ CtrlPoints.prototype = {
                                 const nextSeg = list[i + 1].seg;
 
                                 if (nextSeg.x1 != null && nextSeg.y1 != null) {
-                                    const angle =
-                                            Math.atan2(seg.y2 - seg.y, seg.x2 - seg.x) + Math.PI;
+                                    const angle = Math.atan2(seg.y2 - seg.y, seg.x2 - seg.x) + Math.PI;
 
                                     const path1 = new Path(that.list[i + 1].path1);
 
-                                    const dist = Math.sqrt(
-                                        (nextSeg.x1 - seg.x) ** 2 +
-                                            (nextSeg.y1 - seg.y) ** 2,
-                                    );
+                                    const dist = Math.sqrt((nextSeg.x1 - seg.x) ** 2 + (nextSeg.y1 - seg.y) ** 2);
 
                                     nextSeg.x1 = seg.x + dist * Math.cos(angle);
                                     nextSeg.y1 = seg.y + dist * Math.sin(angle);
@@ -1296,33 +1297,31 @@ MainPoints.prototype = {
         const that = this;
         const needReplace = JSYG.support.needReplaceSeg;
 
-        let start = e => {
+        let start = (e) => {
             new JSYG(that.container).appendTo(that.editor.box.container);
             that.editor.trigger("start", node, e);
             that.trigger("start", node, e);
         };
 
-        const dragstart = e => {
+        const dragstart = (e) => {
             that.editor.trigger("dragstart", node, e);
             that.trigger("dragstart", node, e);
         };
 
-        const dragend = e => {
+        const dragend = (e) => {
             that.editor.update();
             that.editor.trigger("dragend", node, e);
             that.editor.trigger("change", node, e);
             that.trigger("dragend", node, e);
         };
 
-        const end = e => {
+        const end = (e) => {
             that.editor.trigger("end", node, e);
             that.trigger("end", node, e);
         };
 
         if (!this.container.parentNode) {
-            new JSYG(this.container)
-                .appendTo_(this.editor.box.container)[0]
-                .classList.add(this.className);
+            new JSYG(this.container).appendTo_(this.editor.box.container)[0].classList.add(this.className);
         }
 
         if (tag === "path") {
@@ -1336,7 +1335,7 @@ MainPoints.prototype = {
             let mtxScreen;
             const ctrlPoints = this.editor.ctrlsCtrlPoints.list;
 
-            start = e => {
+            start = (e) => {
                 new JSYG(that.container).appendTo(that.editor.box.container);
                 isClosed = jNode.isClosed();
                 mtxScreen = jNode.getMtx("screen");
@@ -1346,7 +1345,7 @@ MainPoints.prototype = {
 
             jNode.rel2abs();
 
-            list.forEach(({x, y}, i) => {
+            list.forEach(({ x, y }, i) => {
                 if (x != null && y != null) {
                     const pt = new JSYG.Vect(x, y).mtx(CTM);
                     let shape;
@@ -1356,17 +1355,17 @@ MainPoints.prototype = {
                     else {
                         drag = function (e) {
                             const //we must redefine seg if pathSegList has been modified
-                            seg = jNode.getSeg(i);
+                                seg = jNode.getSeg(i);
 
                             const jPoint = new JSYG(this);
                             const selfCTM = jNode.getMtx(svg);
                             const center = jPoint.getCenter();
 
                             const //position dans le repère d'édition
-                            posPt = new JSYG.Vect(center.x, center.y).mtx(jPoint.getMtx());
+                                posPt = new JSYG.Vect(center.x, center.y).mtx(jPoint.getMtx());
 
                             const //position dans le repère de l'élément édité
-                            pt = posPt.mtx(selfCTM.inverse());
+                                pt = posPt.mtx(selfCTM.inverse());
 
                             const decX = pt.x - seg.x;
                             const decY = pt.y - seg.y;
@@ -1383,19 +1382,11 @@ MainPoints.prototype = {
                                 if (needReplace) jNode.replaceSeg(0, jNode.getSeg(firstSeg));
                             }
 
-                            if (
-                                that.strengthClosingMagnet != null &&
-                                (seg === lastSeg || seg === firstSeg)
-                            ) {
+                            if (that.strengthClosingMagnet != null && (seg === lastSeg || seg === firstSeg)) {
                                 const segRef = seg === lastSeg ? firstSeg : lastSeg;
                                 const ref = new JSYG.Vect(segRef.x, segRef.y).mtx(mtxScreen);
 
-                                if (
-                                    Math.sqrt(
-                                        (ref.x - e.clientX) ** 2 +
-                                            (ref.y - e.clientY) ** 2,
-                                    ) < that.strengthClosingMagnet
-                                ) {
+                                if (Math.sqrt((ref.x - e.clientX) ** 2 + (ref.y - e.clientY) ** 2) < that.strengthClosingMagnet) {
                                     pt.x = segRef.x;
                                     pt.y = segRef.y;
                                     const mtx = jNode.getMtx(jPoint);
@@ -1406,8 +1397,7 @@ MainPoints.prototype = {
                             seg.x = pt.x;
                             seg.y = pt.y;
 
-                            if (that.autoSmooth && !that.editor.ctrlsCtrlPoints.enabled)
-                                jNode.autoSmooth(i);
+                            if (that.autoSmooth && !that.editor.ctrlsCtrlPoints.enabled) jNode.autoSmooth(i);
                             else {
                                 if (seg.x2 != null && seg.y2 != null) {
                                     seg.x2 += decX;
@@ -1415,13 +1405,8 @@ MainPoints.prototype = {
                                     pt1 = new JSYG.Vect(seg.x2, seg.y2).mtx(selfCTM);
                                     pt2 = new JSYG.Vect(seg.x, seg.y).mtx(selfCTM);
 
-                                    if (
-                                        that.editor.ctrlsCtrlPoints.enabled &&
-                                        (item = ctrlPoints[i])
-                                    ) {
-                                        new Path(item.path2)
-                                            .replaceSeg(0, "M", pt1.x, pt1.y)
-                                            .replaceSeg(1, "L", pt2.x, pt2.y);
+                                    if (that.editor.ctrlsCtrlPoints.enabled && (item = ctrlPoints[i])) {
+                                        new Path(item.path2).replaceSeg(0, "M", pt1.x, pt1.y).replaceSeg(1, "L", pt2.x, pt2.y);
 
                                         new JSYG(item.pt2).setCenter(pt1.x, pt1.y);
                                     }
@@ -1436,13 +1421,8 @@ MainPoints.prototype = {
                                         pt1 = new JSYG.Vect(next.x1, next.y1).mtx(selfCTM);
                                         pt2 = new JSYG.Vect(seg.x, seg.y).mtx(selfCTM);
 
-                                        if (
-                                            that.editor.ctrlsCtrlPoints.enabled &&
-                                            (item = ctrlPoints[i + 1])
-                                        ) {
-                                            new Path(item.path1)
-                                                .replaceSeg(0, "M", pt1.x, pt1.y)
-                                                .replaceSeg(1, "L", pt2.x, pt2.y);
+                                        if (that.editor.ctrlsCtrlPoints.enabled && (item = ctrlPoints[i + 1])) {
+                                            new Path(item.path1).replaceSeg(0, "M", pt1.x, pt1.y).replaceSeg(1, "L", pt2.x, pt2.y);
 
                                             new JSYG(item.pt1).setCenter(pt1.x, pt1.y);
                                         }
@@ -1520,7 +1500,7 @@ MainPoints.prototype = {
                 else {
                     drag = function (e) {
                         const //we must redefine point if points has been modified
-                        point = node.points.getItem(i);
+                            point = node.points.getItem(i);
 
                         const jPoint = new JSYG(this);
                         const selfCTM = jNode.getMtx(svg);
@@ -1699,7 +1679,7 @@ Drag.prototype = {
                 that.trigger("start", node, e);
             },
             ondragstart(e) {
-		    console.log("ondrag start", jNode.getTag()  );
+                console.log("ondrag start", jNode.getTag());
                 for (const n in backup) {
                     if (!backup[n]) continue;
                     new JSYG(that.editor[n].container).hide();
@@ -1710,17 +1690,17 @@ Drag.prototype = {
                 that.trigger("dragstart", node, e);
             },
             ondrag(e) {
-		    //console.log("ondrag", jNode.getTag(), node );
+                //console.log("ondrag", jNode.getTag(), node );
                 that.editor.update();
                 that.editor.trigger("drag", node, e);
                 that.trigger("drag", node, e);
-                if (node.connector) {                      //GUSA
-                   node.connector.updateConnection();      //GUSA
-		}
+                if (node.connector) {
+                    //GUSA
+                    node.connector.updateConnection(); //GUSA
+                }
             },
             ondragend(e) {
-                if (that.editor.isMultiSelection())
-                    new Container(that.editor._target).applyTransform();
+                if (that.editor.isMultiSelection()) new Container(that.editor._target).applyTransform();
                 that.editor.displayShadow = displayShadow;
                 for (const n in backup) {
                     if (!backup[n]) continue;
@@ -1731,7 +1711,6 @@ Drag.prototype = {
                 that.editor.trigger("dragend", node, e);
                 that.editor.trigger("change", node, e);
                 that.trigger("dragend", node, e);
-
             },
             onend(e) {
                 that.editor.trigger("end", node, e);
@@ -1873,10 +1852,8 @@ Resize.prototype = {
             return shape;
         };
 
-        const start = e => {
-            new JSYG(that.container).appendTo(
-                isSVG ? that.editor.box.container : document.body,
-            );
+        const start = (e) => {
+            new JSYG(that.container).appendTo(isSVG ? that.editor.box.container : document.body);
             backup = {
                 ctrlsMainPoints: that.editor.ctrlsMainPoints.enabled,
                 ctrlsCtrlPoints: that.editor.ctrlsCtrlPoints.enabled,
@@ -1885,7 +1862,7 @@ Resize.prototype = {
             that.trigger("start", node, e);
         };
 
-        const dragstart = e => {
+        const dragstart = (e) => {
             for (const n in backup) {
                 if (!backup[n]) continue;
                 new JSYG(that.editor[n].container).hide();
@@ -1896,15 +1873,14 @@ Resize.prototype = {
             that.trigger("dragstart", node, e);
         };
 
-        const drag = e => {
+        const drag = (e) => {
             that.editor.update();
             that.editor.trigger("drag", node, e);
             that.trigger("drag", node, e);
         };
 
-        const dragend = e => {
-            if (that.editor.isMultiSelection())
-                new Container(that.editor._target).applyTransform();
+        const dragend = (e) => {
+            if (that.editor.isMultiSelection()) new Container(that.editor._target).applyTransform();
             that.editor.box.displayShadow = displayShadow;
             for (const n in backup) {
                 if (!backup[n]) continue;
@@ -1921,7 +1897,7 @@ Resize.prototype = {
             that.trigger("dragend", node, e);
         };
 
-        const end = e => {
+        const end = (e) => {
             that.editor.trigger("end", node, e);
             that.trigger("end", node, e);
         };
@@ -1960,7 +1936,7 @@ Resize.prototype = {
                 });
             };
 
-            [0, 1, 2, 3].forEach(i => {
+            [0, 1, 2, 3].forEach((i) => {
                 list[i] = createShape()[0].addEventListener("mousedown", resizeFromCorner);
             });
         }
@@ -1976,7 +1952,7 @@ Resize.prototype = {
                     });
                 };
 
-                [4, 5].forEach(i => {
+                [4, 5].forEach((i) => {
                     let shape = createShape();
                     shape[0].addEventListener("mousedown", horizontalResize);
                     list[i] = shape[0];
@@ -1993,7 +1969,7 @@ Resize.prototype = {
                     });
                 };
 
-                [6, 7].forEach(i => {
+                [6, 7].forEach((i) => {
                     let shape = createShape();
                     shape[0].addEventListener("mousedown", verticalResize);
                     list[i] = shape[0];
@@ -2003,12 +1979,12 @@ Resize.prototype = {
             const jDoc = new JSYG(document);
 
             const documentFct = {
-                keydown({keyCode}) {
+                keydown({ keyCode }) {
                     if (keyCode === 17) {
                         jNode.resizable("set", { keepRatio: true });
                     }
                 },
-                keyup({keyCode}) {
+                keyup({ keyCode }) {
                     if (keyCode === 17) {
                         jNode.resizable("set", { keepRatio: false });
                     }
@@ -2060,9 +2036,7 @@ Resize.prototype = {
             if (isSVG) return jNode.getMtx(jNode.offsetParent("farthest"));
             else {
                 const dimParent = jNode.offsetParent().getDim("page");
-                return new JSYG.Matrix()
-                    .translate(dimParent.x, dimParent.y)
-                    .multiply(jNode.getMtx());
+                return new JSYG.Matrix().translate(dimParent.x, dimParent.y).multiply(jNode.getMtx());
             }
         })();
 
@@ -2074,32 +2048,16 @@ Resize.prototype = {
         const angleTest = Math.abs(angle % Math.PI);
         const inverse = angleTest > Math.PI / 4 && angleTest < (Math.PI * 3) / 4;
 
-        new JSYG(this.list[0])
-            .setCenter(topleft.x, topleft.y)
-            .css("cursor", `${inverse ? "n" : "s"}e-resize`);
-        new JSYG(this.list[1])
-            .setCenter(topright.x, topright.y)
-            .css("cursor", `${inverse ? "s" : "n"}e-resize`);
-        new JSYG(this.list[2])
-            .setCenter(bottomleft.x, bottomleft.y)
-            .css("cursor", `${inverse ? "s" : "n"}e-resize`);
-        new JSYG(this.list[3])
-            .setCenter(bottomright.x, bottomright.y)
-            .css("cursor", `${inverse ? "n" : "s"}e-resize`);
+        new JSYG(this.list[0]).setCenter(topleft.x, topleft.y).css("cursor", `${inverse ? "n" : "s"}e-resize`);
+        new JSYG(this.list[1]).setCenter(topright.x, topright.y).css("cursor", `${inverse ? "s" : "n"}e-resize`);
+        new JSYG(this.list[2]).setCenter(bottomleft.x, bottomleft.y).css("cursor", `${inverse ? "s" : "n"}e-resize`);
+        new JSYG(this.list[3]).setCenter(bottomright.x, bottomright.y).css("cursor", `${inverse ? "n" : "s"}e-resize`);
 
         if (!this.keepRatio) {
-            new JSYG(this.list[4])
-                .setCenter((topright.x + bottomright.x) / 2, (topright.y + bottomright.y) / 2)
-                .css("cursor", `${inverse ? "n" : "e"}-resize`);
-            new JSYG(this.list[5])
-                .setCenter((topleft.x + bottomleft.x) / 2, (topleft.y + bottomleft.y) / 2)
-                .css("cursor", `${inverse ? "n" : "e"}-resize`);
-            new JSYG(this.list[6])
-                .setCenter((topleft.x + topright.x) / 2, (topleft.y + topright.y) / 2)
-                .css("cursor", `${inverse ? "e" : "n"}-resize`);
-            new JSYG(this.list[7])
-                .setCenter((bottomleft.x + bottomright.x) / 2, (bottomleft.y + bottomright.y) / 2)
-                .css("cursor", `${inverse ? "e" : "n"}-resize`);
+            new JSYG(this.list[4]).setCenter((topright.x + bottomright.x) / 2, (topright.y + bottomright.y) / 2).css("cursor", `${inverse ? "n" : "e"}-resize`);
+            new JSYG(this.list[5]).setCenter((topleft.x + bottomleft.x) / 2, (topleft.y + bottomleft.y) / 2).css("cursor", `${inverse ? "n" : "e"}-resize`);
+            new JSYG(this.list[6]).setCenter((topleft.x + topright.x) / 2, (topleft.y + topright.y) / 2).css("cursor", `${inverse ? "e" : "n"}-resize`);
+            new JSYG(this.list[7]).setCenter((bottomleft.x + bottomright.x) / 2, (bottomleft.y + bottomright.y) / 2).css("cursor", `${inverse ? "e" : "n"}-resize`);
         }
 
         return this;
@@ -2188,16 +2146,16 @@ Rotate.prototype = {
 
         let backup;
 
-        const start = e => {
-                backup = {
-                    ctrlsMainPoints: that.editor.ctrlsMainPoints.enabled,
-                    ctrlsCtrlPoints: that.editor.ctrlsCtrlPoints.enabled,
-                };
-                that.editor.trigger("start", node, e);
-                that.trigger("start", node, e);
+        const start = (e) => {
+            backup = {
+                ctrlsMainPoints: that.editor.ctrlsMainPoints.enabled,
+                ctrlsCtrlPoints: that.editor.ctrlsCtrlPoints.enabled,
             };
+            that.editor.trigger("start", node, e);
+            that.trigger("start", node, e);
+        };
 
-        const dragstart = e => {
+        const dragstart = (e) => {
             for (const n in backup) {
                 if (!backup[n]) continue;
                 new JSYG(that.editor[n].container)[0].style.display = "none";
@@ -2208,15 +2166,14 @@ Rotate.prototype = {
             that.trigger("dragstart", node, e);
         };
 
-        const drag = e => {
+        const drag = (e) => {
             that.editor.update();
             that.editor.trigger("drag", node, e);
             that.trigger("drag", node, e);
         };
 
-        const dragend = e => {
-            if (that.editor.isMultiSelection())
-                new Container(that.editor._target).applyTransform();
+        const dragend = (e) => {
+            if (that.editor.isMultiSelection()) new Container(that.editor._target).applyTransform();
             that.editor.box.displayShadow = displayShadow;
             for (const n in backup) {
                 if (!backup[n]) continue;
@@ -2230,7 +2187,7 @@ Rotate.prototype = {
             that.trigger("dragend", node, e);
         };
 
-        const end = e => {
+        const end = (e) => {
             that.editor.trigger("end", node, e);
             that.trigger("end", node, e);
         };
@@ -2285,9 +2242,7 @@ Rotate.prototype = {
             if (jNode.isSVG()) return jNode.getMtx(jNode.offsetParent("farthest"));
             else {
                 const dimParent = jNode.offsetParent().getDim("page");
-                return new JSYG.Matrix()
-                    .translate(dimParent.x, dimParent.y)
-                    .multiply(jNode.getMtx());
+                return new JSYG.Matrix().translate(dimParent.x, dimParent.y).multiply(jNode.getMtx());
             }
         })();
 
@@ -2295,10 +2250,7 @@ Rotate.prototype = {
         const topright = new JSYG.Vect(b.x + b.width, b.y).mtx(CTM);
         const angle = Math.atan2((topright.y - topleft.y) / 2, (topright.x - topleft.x) / 2);
 
-        new JSYG(this.list[0]).setCenter(
-            (topleft.x + topright.x) / 2 + 15 * Math.sin(angle),
-            (topleft.y + topright.y) / 2 - 15 * Math.cos(angle),
-        );
+        new JSYG(this.list[0]).setCenter((topleft.x + topright.x) / 2 + 15 * Math.sin(angle), (topleft.y + topright.y) / 2 - 15 * Math.cos(angle));
 
         return this;
     },
