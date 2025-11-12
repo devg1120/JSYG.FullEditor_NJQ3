@@ -326,6 +326,8 @@ export class Editor extends StdConstruct {
         if (target.length != 2) return this;
 	console.log("set connector" , svg);
 	const connector = new Connector(this,svg, target[0] , target[1]);
+        target[0].connector = connector;
+        target[1].connector = connector;
 
         //let line = connector.getLine();
         //const svg = document.querySelector("#containerDoc > svg");
@@ -1697,6 +1699,7 @@ Drag.prototype = {
                 that.trigger("start", node, e);
             },
             ondragstart(e) {
+		    console.log("ondrag start", jNode.getTag()  );
                 for (const n in backup) {
                     if (!backup[n]) continue;
                     new JSYG(that.editor[n].container).hide();
@@ -1707,9 +1710,13 @@ Drag.prototype = {
                 that.trigger("dragstart", node, e);
             },
             ondrag(e) {
+		    //console.log("ondrag", jNode.getTag(), node );
                 that.editor.update();
                 that.editor.trigger("drag", node, e);
                 that.trigger("drag", node, e);
+                if (node.connector) {                      //GUSA
+                   node.connector.updateConnection();      //GUSA
+		}
             },
             ondragend(e) {
                 if (that.editor.isMultiSelection())
@@ -1724,6 +1731,7 @@ Drag.prototype = {
                 that.editor.trigger("dragend", node, e);
                 that.editor.trigger("change", node, e);
                 that.trigger("dragend", node, e);
+
             },
             onend(e) {
                 that.editor.trigger("end", node, e);

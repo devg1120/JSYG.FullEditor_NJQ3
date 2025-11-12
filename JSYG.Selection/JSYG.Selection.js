@@ -124,7 +124,6 @@ export class Selection extends StdConstruct {
 */
 
         resize.on("dragstart", e => {
-		console.log("dragstart");
             each(list, function () {
                 //GUSA
 
@@ -403,7 +402,6 @@ export class Selection extends StdConstruct {
             },
 
             "drag:start": function (e) {
-		//console.log("drag:start");
                 if (that.multiple && that.trigger("beforedrag", that.node, e) !== false) that._draw(e);
                 else drawing = false;
             },
