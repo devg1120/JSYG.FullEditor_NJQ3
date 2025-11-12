@@ -319,12 +319,41 @@ export class Editor extends StdConstruct {
         return this;
     }
 
+    findConnectShape(svg, cid) {
+          document.querySelector("input:checked");
+    }
+
+    initSVG(svg) {
+        console.log("initSVG",svg);
+	let lines = svg.querySelectorAll("line");
+        for (let i = 0; i < lines.length ; i++) {
+             let f_id = lines[i].getAttributeNS(null, 'from-id' )
+             let t_id = lines[i].getAttributeNS(null, 'to-id' )
+             
+             if ( f_id == null && t_id == null ) return;
+             console.log("conector", f_id, t_id)
+
+             //let from = svg.querySelector('[cid="24033307-7uczljr"]');
+             //let to   = svg.querySelector('[cid="24033307-fu1ot9q"]');
+
+             let from = svg.querySelector('[cid="' + f_id + '"]');
+             let to   = svg.querySelector('[cid="' + t_id + '"]');
+             //console.log("from to ",from, to);
+	
+             const connector = new Connector(this, svg );
+             connector.connectLoadset(lines[i], from, to);
+             from.connector = connector;
+             to.connector = connector;
+	}
+    }
     connector(svg) {
         const target = this.target();
         if (!target) return this;
         if (target.length != 2) return this;
         console.log("set connector", svg);
-        const connector = new Connector(this, svg, target[0], target[1]);
+        //const connector = new Connector(this, svg, target[0], target[1]);
+        const connector = new Connector(this, svg );
+        connector.connectCreate(target[0], target[1]);
         target[0].connector = connector;
         target[1].connector = connector;
 
@@ -485,6 +514,98 @@ function guid() {
 }
 
 class Connector extends StdConstruct {
+    constructor(editor, svg ) {
+        super();
+        this.editor = editor;
+        this.svg = svg;
+    }
+
+    connectCreate( from, to) {
+        this.node1 = from;
+        this.node2 = to;
+        console.log("connector init: ", from, to);
+
+        /*
+ <line fill="#ffffff" stroke="#000000" stroke-width="1" x1="178.80528259277344" y1="238.88331604003906" x2="238.55137634277344" y2="255.4794464111328"></line>
+
+ <polyline points="0,100 50,25 50,75 100,0" />
+
+ */
+        const svgNamespace = "http://www.w3.org/2000/svg";
+        this.line = document.createElementNS(svgNamespace, "line");
+        this.updateConnection();
+
+        this.line.setAttributeNS(null, "stroke", "black");
+        this.line.setAttributeNS(null, "strok-width", "3");
+
+        this.svg.appendChild(this.line);
+        const id1= guid();
+        const id2= guid();
+        this.node1.setAttributeNS(null, 'cid', id1);
+        this.node2.setAttributeNS(null, 'cid', id2);
+        this.line.setAttributeNS(null, 'from-id', id1);
+        this.line.setAttributeNS(null, 'to-id', id2);
+    }
+
+    connectLoadset( line, from, to) {
+        this.line = line;
+        this.node1 = from;
+        this.node2 = to;
+        //let fid = this.line.setAttributeNS(null, 'from-id', );
+        //let tid = this.line.setAttributeNS(null, 'to-id', );
+        //console.log("connector load: ", fid, tid );
+
+        this.updateConnection();
+
+    }
+    getLine() {
+        return this.line;
+    }
+
+    updateConnection() {
+        // Top left coordinates
+        var x1 = parseFloat(this.node1.getAttributeNS(null, "x"));
+        var y1 = parseFloat(this.node1.getAttributeNS(null, "y"));
+        var x2 = parseFloat(this.node2.getAttributeNS(null, "x"));
+        var y2 = parseFloat(this.node2.getAttributeNS(null, "y"));
+        
+        // Half widths and half heights
+        var w1 = parseFloat(this.node1.getAttributeNS(null, "width")) / 2;
+        var h1 = parseFloat(this.node1.getAttributeNS(null, "height")) / 2;
+        var w2 = parseFloat(this.node2.getAttributeNS(null, "width")) / 2;
+        var h2 = parseFloat(this.node2.getAttributeNS(null, "height")) / 2;
+
+        // Center coordinates
+        var cx1 = x1 + w1;
+        var cy1 = y1 + h1;
+        var cx2 = x2 + w2;
+        var cy2 = y2 + h2;
+
+        // Distance between centers
+        var dx = cx2 - cx1;
+        var dy = cy2 - cy1;
+
+        var p1 = this.getIntersection(dx, dy, cx1, cy1, w1, h1);
+        var p2 = this.getIntersection(-dx, -dy, cx2, cy2, w2, h2);
+
+        this.line.setAttributeNS(null, "x1", p1[0]);
+        this.line.setAttributeNS(null, "y1", p1[1]);
+        this.line.setAttributeNS(null, "x2", p2[0]);
+        this.line.setAttributeNS(null, "y2", p2[1]);
+    }
+
+    getIntersection(dx, dy, cx, cy, w, h) {
+        if (Math.abs(dy / dx) < h / w) {
+            // Hit vertical edge of box1
+            return [cx + (dx > 0 ? w : -w), cy + (dy * w) / Math.abs(dx)];
+        } else {
+            // Hit horizontal edge of box1
+            return [cx + (dx * h) / Math.abs(dy), cy + (dy > 0 ? h : -h)];
+        }
+    }
+}
+
+class Connector_old extends StdConstruct {
     constructor(editor, svg, from, to) {
         super();
         this.editor = editor;

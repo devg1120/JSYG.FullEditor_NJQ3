@@ -634,6 +634,7 @@ export default class FullEditor extends JSYG {
     }
 
     set shapeDrawerModel(value) {
+	console.log(value);
         const jNode = new JSYG(value);
 
         if (jNode.length != 1) throw new Error("Shape model incorrect");
@@ -694,8 +695,8 @@ export default class FullEditor extends JSYG {
             if (!modele) throw new Error("You must define a model");
 
             const shape = new JSYG(new JSYG(modele)[0].cloneNode());
-            console.log(that._getLayerSelector());
-            console.log(shape );
+            //console.log(that._getLayerSelector());
+            //console.log(shape );
 
             let target = document.querySelectorAll(that._getLayerSelector());
             //shape[0].setAttributeNS(null, 'cid', guid());
@@ -1447,6 +1448,7 @@ export default class FullEditor extends JSYG {
     }
 
     load(arg) {
+	    console.trace()
         if (arg instanceof File) return this.loadFile(arg);
         else if (typeof arg == "string") {
             if (arg.indexOf("<?xml") == 0 || arg.indexOf("<svg") == 0)
@@ -1460,6 +1462,7 @@ export default class FullEditor extends JSYG {
     }
 
     readFile(file, readAs) {
+        console.log("readFile");
         return new Promise((resolve, reject) => {
             if (!window.FileReader) throw new Error("your navigator doesn't implement FileReader");
 
@@ -1486,6 +1489,8 @@ export default class FullEditor extends JSYG {
         console.log("testCall");
     }
     loadFile(file) {
+	    console.log("loadFile");
+	    console.trace()
         if (!file.type || !file.type.match(/svg/))
             throw new Error("file format incorrect. SVG file is required.");
 
@@ -1512,6 +1517,9 @@ export default class FullEditor extends JSYG {
     }
 
     loadXML(svg) {
+
+        //console.log("loadXML", svg[0]);
+
         let container;
 
         this.shapeEditor.hide();
@@ -1532,6 +1540,9 @@ export default class FullEditor extends JSYG {
 
         const event = new CustomEvent("load", { detail: svg });
         this[0].dispatchEvent(event);
+         console.log(svg[0])
+         console.log(this.getDocument())
+        this.shapeEditor.initSVG(svg[0]);
 
         return this;
     }
