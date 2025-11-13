@@ -565,6 +565,7 @@ class Connector extends StdConstruct {
     }
 
     updateConnection() {
+      //console.trace();
       if (this.node1.tagName == 'rect'    && this.node2.tagName == 'rect'    )  this.connect_rect_rect();
       if (this.node1.tagName == 'circle'  && this.node2.tagName == 'circle'  )  this.connect_circle_circle();
       if (this.node1.tagName == 'ellipse' && this.node2.tagName == 'polygon' )  this.connect_ellipse_polygon();
@@ -661,6 +662,7 @@ class Connector extends StdConstruct {
         const ellipse1 = ShapeInfo.ellipse([cx1,cy1],rx1, ry1);
 
         var points_str = this.node2.getAttributeNS(null, "points");
+        console.log("points_str", points_str);
         var list = points_str.split(' ');
         let points_array = [];
         for (let i = 0; i < list.length ;i =  i+2) {
@@ -2134,6 +2136,10 @@ Resize.prototype = {
             that.editor.update();
             that.editor.trigger("drag", node, e);
             that.trigger("drag", node, e);
+                if (node.connector) {
+                    //GUSA
+                    node.connector.updateConnection(); //GUSA
+                }
         };
 
         const dragend = (e) => {
@@ -2427,6 +2433,10 @@ Rotate.prototype = {
             that.editor.update();
             that.editor.trigger("drag", node, e);
             that.trigger("drag", node, e);
+                if (node.connector) {
+                    //GUSA
+                    node.connector.updateConnection(); //GUSA
+                }
         };
 
         const dragend = (e) => {

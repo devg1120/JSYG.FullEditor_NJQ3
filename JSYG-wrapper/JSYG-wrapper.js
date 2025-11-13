@@ -2389,6 +2389,12 @@ JSYG.prototype.mtx2attrs = function (opt) {
 
                 if (!opt.mtx) $this.resetTransf();
 
+                if ($this[0].connector) {
+                    //GUSA
+                    $this[0].connector.updateConnection(); //GUSA
+			console.log("polygon conector update");
+                }
+
                 break;
 
             case "path":
