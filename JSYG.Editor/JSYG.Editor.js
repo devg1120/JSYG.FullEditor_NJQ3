@@ -634,7 +634,9 @@ class Connector extends StdConstruct {
       return [ center_x, center_y ]
 
     }
-    polygon_center( points_array ) {
+
+
+    polygon_center2( points_array ) {
        let x_min = points_array[0][0]
        let x_max = points_array[0][0]
        let y_min = points_array[0][1]
@@ -652,8 +654,20 @@ class Connector extends StdConstruct {
 
     }
 
+ polygon_center(arr)
+{
+    var minX, maxX, minY, maxY;
+    for (var i = 0; i < arr.length; i++)
+    {
+        minX = (arr[i][0] < minX || minX == null) ? arr[i][0] : minX;
+        maxX = (arr[i][0] > maxX || maxX == null) ? arr[i][0] : maxX;
+        minY = (arr[i][1] < minY || minY == null) ? arr[i][1] : minY;
+        maxY = (arr[i][1] > maxY || maxY == null) ? arr[i][1] : maxY;
+    }
+    return [(minX + maxX) / 2, (minY + maxY) / 2];
+}
     connect_ellipse_polygon() {
-	    console.log("connect_ellipse_polygon");
+	    //console.log("connect_ellipse_polygon");
         var cx1 = parseFloat(this.node1.getAttributeNS(null, "cx"));
         var cy1 = parseFloat(this.node1.getAttributeNS(null, "cy"));
         var rx1 = parseFloat(this.node1.getAttributeNS(null, "rx"));
@@ -662,7 +676,7 @@ class Connector extends StdConstruct {
         const ellipse1 = ShapeInfo.ellipse([cx1,cy1],rx1, ry1);
 
         var points_str = this.node2.getAttributeNS(null, "points");
-        console.log("points_str", points_str);
+        //console.log("points_str", points_str);
         var list = points_str.split(' ');
         let points_array = [];
         for (let i = 0; i < list.length ;i =  i+2) {
@@ -677,11 +691,18 @@ class Connector extends StdConstruct {
 
         const isc1 = Intersection.intersect(ellipse1, line);
         const isc2 = Intersection.intersect(polygon2, line);
-
+        console.log("isc1", isc1)
+        console.log("isc2", isc2)
         this.line.setAttributeNS(null, "x1", isc1.points[0].x);
         this.line.setAttributeNS(null, "y1", isc1.points[0].y);
-        this.line.setAttributeNS(null, "x2", isc2.points[0].x);
-        this.line.setAttributeNS(null, "y2", isc2.points[0].y);
+        if (isc2.points.length == 2)  {
+          this.line.setAttributeNS(null, "x2", isc2.points[1].x);
+          this.line.setAttributeNS(null, "y2", isc2.points[1].y);
+	} else {
+          this.line.setAttributeNS(null, "x2", isc2.points[0].x);
+          this.line.setAttributeNS(null, "y2", isc2.points[0].y);
+
+	}
     }
 
     connect_rect_rect() {
