@@ -23,6 +23,7 @@
     "jsyg-point": "^1.0.1",
     "jsyg-strutils": "^1.0.0",
     "jsyg-vect": "^1.0.2",
+    "kld-intersections": "^0.7.0",
     "pathseg": "^1.2.1",
     "prettier": "^3.6.2",
     "zepto.js": "^1.1.6"

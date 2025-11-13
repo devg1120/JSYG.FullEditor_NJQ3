@@ -308,7 +308,6 @@ export class Selection extends StdConstruct {
 
         const fcts = {
             mousedown(e) {
-		    console.log("mousedown");
                 if (e.which != 1) return;
 
                 if (
@@ -389,7 +388,6 @@ export class Selection extends StdConstruct {
                 that.clearNativeSelection();
 
                const cible = that._getTarget(e);
-		    console.log(cible);
 
                 if (cible) {
                     if (that.trigger("beforeselect", that.node, e, cible) !== false) {

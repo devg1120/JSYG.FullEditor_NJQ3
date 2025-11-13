@@ -11,6 +11,7 @@ import { Resizable } from "../JSYG.Resizable/JSYG.Resizable.js";
 import { Rotatable } from "../JSYG.Rotatable/JSYG.Rotatable.js";
 
 import { Path } from "../JSYG.Path/JSYG.Path.js";
+import {ShapeInfo, Intersection} from "kld-intersections";
 
 const ctrls = ["Drag", "Resize", "Rotate", "CtrlPoints", "MainPoints"];
 const plugins = ["box", "selection", "clipBoard"];
@@ -523,7 +524,7 @@ class Connector extends StdConstruct {
     connectCreate( from, to) {
         this.node1 = from;
         this.node2 = to;
-        console.log("connector init: ", from, to);
+        console.log("connector init: ", from.tagName, to.tagName);
 
         /*
  <line fill="#ffffff" stroke="#000000" stroke-width="1" x1="178.80528259277344" y1="238.88331604003906" x2="238.55137634277344" y2="255.4794464111328"></line>
@@ -548,6 +549,7 @@ class Connector extends StdConstruct {
     }
 
     connectLoadset( line, from, to) {
+        console.log("connector loadset : ", line.tagName, from.tagName, to.tagName);
         this.line = line;
         this.node1 = from;
         this.node2 = to;
@@ -563,6 +565,11 @@ class Connector extends StdConstruct {
     }
 
     updateConnection() {
+      if (this.node1.tagName == 'rect'    && this.node2.tagName == 'rect'    )  this.connect_rect_rect();
+      if (this.node1.tagName == 'circle'  && this.node2.tagName == 'circle'  )  this.connect_circle_circle();
+      if (this.node1.tagName == 'ellipse' && this.node2.tagName == 'polygon' )  this.connect_ellipse_polygon();
+    }
+    connect_rect_rect_old() {
         // Top left coordinates
         var x1 = parseFloat(this.node1.getAttributeNS(null, "x"));
         var y1 = parseFloat(this.node1.getAttributeNS(null, "y"));
@@ -585,8 +592,8 @@ class Connector extends StdConstruct {
         var dx = cx2 - cx1;
         var dy = cy2 - cy1;
 
-        var p1 = this.getIntersection(dx, dy, cx1, cy1, w1, h1);
-        var p2 = this.getIntersection(-dx, -dy, cx2, cy2, w2, h2);
+        var p1 = this.getIntersection_rect(dx, dy, cx1, cy1, w1, h1);
+        var p2 = this.getIntersection_rect(-dx, -dy, cx2, cy2, w2, h2);
 
         this.line.setAttributeNS(null, "x1", p1[0]);
         this.line.setAttributeNS(null, "y1", p1[1]);
@@ -594,7 +601,7 @@ class Connector extends StdConstruct {
         this.line.setAttributeNS(null, "y2", p2[1]);
     }
 
-    getIntersection(dx, dy, cx, cy, w, h) {
+    getIntersection_rect(dx, dy, cx, cy, w, h) {
         if (Math.abs(dy / dx) < h / w) {
             // Hit vertical edge of box1
             return [cx + (dx > 0 ? w : -w), cy + (dy * w) / Math.abs(dx)];
@@ -602,6 +609,135 @@ class Connector extends StdConstruct {
             // Hit horizontal edge of box1
             return [cx + (dx * h) / Math.abs(dy), cy + (dy > 0 ? h : -h)];
         }
+    }
+
+    polygon_center_( points_array ) {
+           console.log("------", points_array );
+               let x_min = parseFloat(points_array[0][0])
+               let x_max = parseFloat(points_array[0][0])
+               let y_min = parseFloat(points_array[0][1])
+               let y_max = parseFloat(points_array[0][1])
+
+       for (let i =1; i< points_array.length; i++) {
+           console.log("--")
+
+               if (x_min > parseFloat(points_array[i][0])) x_min = parseFloat(points_array[i][0])
+               if (x_max < parseFloat(points_array[i][0])) x_max = parseFloat(points_array[i][0])
+               if (y_min > parseFloat(points_array[i][1])) y_min = parseFloat(points_array[i][1])
+               if (y_max < parseFloat(points_array[i][1])) y_max = parseFloat(points_array[i][1])
+       }
+      //let center_x = x_min + parseFloat(( x_max - x_min)/2);
+      //let center_y = y_min + parseFloat(( y_max - y_min)/2);
+      let center_x = x_min + ( x_max - x_min)/2;
+      let center_y = y_min + ( y_max - y_min)/2;
+      return [ center_x, center_y ]
+
+    }
+    polygon_center( points_array ) {
+       let x_min = points_array[0][0]
+       let x_max = points_array[0][0]
+       let y_min = points_array[0][1]
+       let y_max = points_array[0][1]
+
+       for (let i =1; i< points_array.length; i++) {
+               if (x_min > points_array[i][0]) x_min = points_array[i][0]
+               if (x_max < points_array[i][0]) x_max = points_array[i][0]
+               if (y_min > points_array[i][1]) y_min = points_array[i][1]
+               if (y_max < points_array[i][1]) y_max = points_array[i][1]
+       }
+      let center_x = x_min + ( x_max - x_min)/2;
+      let center_y = y_min + ( y_max - y_min)/2;
+      return [ center_x, center_y ]
+
+    }
+
+    connect_ellipse_polygon() {
+	    console.log("connect_ellipse_polygon");
+        var cx1 = parseFloat(this.node1.getAttributeNS(null, "cx"));
+        var cy1 = parseFloat(this.node1.getAttributeNS(null, "cy"));
+        var rx1 = parseFloat(this.node1.getAttributeNS(null, "rx"));
+        var ry1 = parseFloat(this.node1.getAttributeNS(null, "ry"));
+
+        const ellipse1 = ShapeInfo.ellipse([cx1,cy1],rx1, ry1);
+
+        var points_str = this.node2.getAttributeNS(null, "points");
+        var list = points_str.split(' ');
+        let points_array = [];
+        for (let i = 0; i < list.length ;i =  i+2) {
+                  let point = [parseFloat(list[i]), parseFloat(list[i+1])]
+		  points_array.push(point);
+	}
+        let center = this.polygon_center(points_array);
+        const polygon2 = ShapeInfo.polygon(points_array);
+
+	    
+        const line = ShapeInfo.line([cx1, cy1], center);
+
+        const isc1 = Intersection.intersect(ellipse1, line);
+        const isc2 = Intersection.intersect(polygon2, line);
+
+        this.line.setAttributeNS(null, "x1", isc1.points[0].x);
+        this.line.setAttributeNS(null, "y1", isc1.points[0].y);
+        this.line.setAttributeNS(null, "x2", isc2.points[0].x);
+        this.line.setAttributeNS(null, "y2", isc2.points[0].y);
+    }
+
+    connect_rect_rect() {
+        // Top left coordinates
+        var x1 = parseFloat(this.node1.getAttributeNS(null, "x"));
+        var y1 = parseFloat(this.node1.getAttributeNS(null, "y"));
+        var x2 = parseFloat(this.node2.getAttributeNS(null, "x"));
+        var y2 = parseFloat(this.node2.getAttributeNS(null, "y"));
+        
+        // Half widths and half heights
+        var w1 = parseFloat(this.node1.getAttributeNS(null, "width"));
+        var h1 = parseFloat(this.node1.getAttributeNS(null, "height")) ;
+        var w2 = parseFloat(this.node2.getAttributeNS(null, "width")) ;
+        var h2 = parseFloat(this.node2.getAttributeNS(null, "height")) ;
+
+        // Center coordinates
+        var cx1 = x1 + parseFloat(w1 / 2);
+        var cy1 = y1 + parseFloat(h1 / 2);
+        var cx2 = x2 + parseFloat(w2 / 2);
+        var cy2 = y2 + parseFloat(h2 / 2);
+
+	// github.com/thelonious/kld-intersections/blob/development/lib/ShapeInfo.js
+        const rect1 = ShapeInfo.rectangle([x1,y1],[w1,h1]);
+        const rect2 = ShapeInfo.rectangle([x2,y2],[w2,h2]);
+        const line = ShapeInfo.line([cx1, cy1], [cx2, cy2]);
+        const isc1 = Intersection.intersect(rect1, line);
+        const isc2 = Intersection.intersect(rect2, line);
+        
+        //console.log(isc1, isc2);
+
+        this.line.setAttributeNS(null, "x1", isc1.points[0].x);
+        this.line.setAttributeNS(null, "y1", isc1.points[0].y);
+        this.line.setAttributeNS(null, "x2", isc2.points[0].x);
+        this.line.setAttributeNS(null, "y2", isc2.points[0].y);
+
+    }
+    connect_circle_circle() {
+        // Center coordinates
+        var cx1 = parseFloat(this.node1.getAttributeNS(null, "cx"));
+        var cy1 = parseFloat(this.node1.getAttributeNS(null, "cy"));
+        var r1  = parseFloat(this.node1.getAttributeNS(null, "r"));
+        var cx2 = parseFloat(this.node2.getAttributeNS(null, "cx"));
+        var cy2 = parseFloat(this.node2.getAttributeNS(null, "cy"));
+        var r2  = parseFloat(this.node2.getAttributeNS(null, "r"));
+        
+
+        const circle1 = ShapeInfo.circle(cx1,cy1,r1);
+        const circle2 = ShapeInfo.circle(cx2,cy2,r2);
+        const line = ShapeInfo.line([cx1, cy1], [cx2, cy2]);
+        const isc1 = Intersection.intersect(circle1, line);
+        const isc2 = Intersection.intersect(circle2, line);
+        
+        //console.log(isc1, isc2);
+
+        this.line.setAttributeNS(null, "x1", isc1.points[0].x);
+        this.line.setAttributeNS(null, "y1", isc1.points[0].y);
+        this.line.setAttributeNS(null, "x2", isc2.points[0].x);
+        this.line.setAttributeNS(null, "y2", isc2.points[0].y);
     }
 }
 
@@ -1800,7 +1936,7 @@ Drag.prototype = {
                 that.trigger("start", node, e);
             },
             ondragstart(e) {
-                console.log("ondrag start", jNode.getTag());
+                //console.log("ondrag start", jNode.getTag());
                 for (const n in backup) {
                     if (!backup[n]) continue;
                     new JSYG(that.editor[n].container).hide();
