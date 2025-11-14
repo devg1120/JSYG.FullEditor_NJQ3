@@ -238,7 +238,7 @@ export default function JSYG(arg, context) {
     return this;
 }
 
-//JSYG.fn = JSYG.prototype = new $();
+JSYG.fn = JSYG.prototype = new $();
 
 JSYG.prototype.constructor = JSYG;
 //JSYG.prototype.plugin_dic = {};
