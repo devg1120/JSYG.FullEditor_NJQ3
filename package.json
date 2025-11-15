@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
+    "cash-dom": "^8.1.5",
     "documentation": "^14.0.3",
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.1",

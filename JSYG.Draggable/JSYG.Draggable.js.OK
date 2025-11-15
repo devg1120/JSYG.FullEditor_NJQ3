@@ -514,10 +514,11 @@ export     function Draggable(arg,opt) {
             
             if (hasChanged && that.type!=='transform' && that._shape === 'noAttribute') jNode.mtx2attrs({keepRotation:that.keepRotation});
             
-            new JSYG(document).off(fcts); //GUSA
-            //let doc = new JSYG(document);
-            //doc[0].removeEventListener("mouseover", fcts["mouseover"]);
-            //doc[0].removeEventListener("mouseup", fcts["mouseup"]);
+            //new JSYG(document).off(fcts); //GUSA
+
+            let doc = new JSYG(document);
+            doc[0].removeEventListener("mousemove",  fcts.mousemove);
+            doc[0].removeEventListener("mouseup",   fcts.mouseup  );
             
             if (hasChanged){
 		    that.trigger('dragend',that.node,e);
@@ -534,10 +535,11 @@ export     function Draggable(arg,opt) {
         fcts.mousemove = mousemoveFct 
         fcts.mouseup = remove 
                 
-        new JSYG(document).on(fcts);
-        //let doc = new JSYG(document);
-        //doc[0].addEventListener("mouseover", mousemoveFct);
-        //doc[0].addEventListener("mouseup", remove);
+        //new JSYG(document).on(fcts);//GUSA
+	    
+        let doc = new JSYG(document);
+        doc[0].addEventListener("mousemove",  fcts.mousemove);
+        doc[0].addEventListener("mouseup",   fcts.mouseup  );
 
         this.trigger('start',this.node,e);
         //    const event = new CustomEvent('start',{ detail: e });
