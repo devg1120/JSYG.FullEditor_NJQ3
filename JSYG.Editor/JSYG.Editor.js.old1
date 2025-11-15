@@ -564,74 +564,12 @@ class Connector extends StdConstruct {
         return this.line;
     }
 
-    updateConnection_() {
+    updateConnection() {
       //console.trace();
       if (this.node1.tagName == 'rect'    && this.node2.tagName == 'rect'    )  this.connect_rect_rect();
       if (this.node1.tagName == 'circle'  && this.node2.tagName == 'circle'  )  this.connect_circle_circle();
       if (this.node1.tagName == 'ellipse' && this.node2.tagName == 'polygon' )  this.connect_ellipse_polygon();
     }
-
-    updateConnection() {
-
-        let n1 = this.get_center_point(this.node1) 
-        let n2 = this.get_center_point(this.node2) 
-
-        const line = ShapeInfo.line(n1[1], n2[1]);
-        const isc1 = Intersection.intersect(n1[0], line);
-        const isc2 = Intersection.intersect(n2[0], line);
-
-        this.line.setAttributeNS(null, "x1", isc1.points[0].x);
-        this.line.setAttributeNS(null, "y1", isc1.points[0].y);
-        this.line.setAttributeNS(null, "x2", isc2.points[0].x);
-        this.line.setAttributeNS(null, "y2", isc2.points[0].y);
-
-    }
-    get_center_point(node) {
-        if (node.tagName == 'rect') {
-            var x = parseFloat(node.getAttributeNS(null, "x"));
-            var y = parseFloat(node.getAttributeNS(null, "y"));
-            var w = parseFloat(node.getAttributeNS(null, "width"));
-            var h = parseFloat(node.getAttributeNS(null, "height")) ;
-            var cx = x + parseFloat(w / 2);
-            var cy = y + parseFloat(h / 2);
-            const rect = ShapeInfo.rectangle([x,y],[w,h]);
-            return [rect, [cx, cy]]
-	} else if (node.tagName == 'circle') {
-            var cx = parseFloat(node.getAttributeNS(null, "cx"));
-            var cy = parseFloat(node.getAttributeNS(null, "cy"));
-            var r  = parseFloat(node.getAttributeNS(null, "r"));
-            const circle = ShapeInfo.circle(cx,cy,r);
-            return [circle, [cx, cy]]
-	} else if (node.tagName == 'ellipse') {
-            var cx = parseFloat(node.getAttributeNS(null, "cx"));
-            var cy = parseFloat(node.getAttributeNS(null, "cy"));
-            var rx = parseFloat(node.getAttributeNS(null, "rx"));
-            var ry = parseFloat(node.getAttributeNS(null, "ry"));
-            const ellipse = ShapeInfo.ellipse([cx,cy],rx, ry);
-            return [ellipse, [cx, cy]]
-	} else if (node.tagName == 'polygon') {
-            var points_str = this.node2.getAttributeNS(null, "points");
-            var list = points_str.split(' ');
-            let points_array = [];
-            for (let i = 0; i < list.length ;i =  i+2) {
-                      let point = [parseFloat(list[i]), parseFloat(list[i+1])]
-	    	  points_array.push(point);
-	    }
-            let center = this.polygon_center(points_array);
-            const polygon = ShapeInfo.polygon(points_array);
-            return [polygon, center]
-	} else  {
-            throw("connection node type", node.tagName)
-        }
-    }
-/*
-    get_intersect_point(node, c1, c2) {
-        const line = ShapeInfo.line(c1, c2);
-
-        const isc = Intersection.intersect(node, line);
-        return isc
-    }
-*/
     connect_rect_rect_old() {
         // Top left coordinates
         var x1 = parseFloat(this.node1.getAttributeNS(null, "x"));
