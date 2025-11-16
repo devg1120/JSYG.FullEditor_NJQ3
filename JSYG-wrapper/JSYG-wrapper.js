@@ -2388,11 +2388,17 @@ JSYG.prototype.mtx2attrs = function (opt) {
                 }
 
                 if (!opt.mtx) $this.resetTransf();
-
+/*
                 if ($this[0].connector) {
                     //GUSA
                     $this[0].connector.updateConnection(); //GUSA
 			console.log("polygon conector update");
+                }
+*/
+                if ($this[0].connectors) {
+                    for( let i = 0; i < $this[0].connectors.length ; i++ ) {
+                        $this[0].connectors[i].updateConnection(); //GUSA
+                    }
                 }
 
                 break;

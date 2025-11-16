@@ -343,18 +343,8 @@ export class Editor extends StdConstruct {
 	
              const connector = new Connector(this, svg );
              connector.connectLoadset(lines[i], from, to);
-             //from.connector = connector;
-             //to.connector = connector;
-             if (! from.connectors) {
-                 from.connectors = [];
-	     }
-             from.connectors.push(connector) ;
-             if (! to.connectors) {
-                 to.connectors = [];
-	     }
-             to.connectors.push(connector) ;
-
-
+             from.connector = connector;
+             to.connector = connector;
 	}
     }
     connector(svg) {
@@ -365,16 +355,8 @@ export class Editor extends StdConstruct {
         //const connector = new Connector(this, svg, target[0], target[1]);
         const connector = new Connector(this, svg );
         connector.connectCreate(target[0], target[1]);
-        //target[0].connector = connector;
-        //target[1].connector = connector;
-             if (! target[0].connectors) {
-                 target[0].connectors = [];
-	     }
-             target[0].connectors.push(connector) ;
-             if (! target[1].connectors) {
-                 target[1].connectors = [];
-	     }
-             target[1].connectors.push(connector) ;
+        target[0].connector = connector;
+        target[1].connector = connector;
 
         //let line = connector.getLine();
         //const svg = document.querySelector("#containerDoc > svg");
@@ -628,7 +610,7 @@ class Connector extends StdConstruct {
             const ellipse = ShapeInfo.ellipse([cx,cy],rx, ry);
             return [ellipse, [cx, cy]]
 	} else if (node.tagName == 'polygon') {
-            var points_str = node.getAttributeNS(null, "points");
+            var points_str = this.node2.getAttributeNS(null, "points");
             var list = points_str.split(' ');
             let points_array = [];
             for (let i = 0; i < list.length ;i =  i+2) {
@@ -2050,20 +2032,13 @@ Drag.prototype = {
                 that.trigger("dragstart", node, e);
             },
             ondrag(e) {
-                console.log("ondrag", jNode.getTag(), node );
+                //console.log("ondrag", jNode.getTag(), node );
                 that.editor.update();
                 that.editor.trigger("drag", node, e);
                 that.trigger("drag", node, e);
-		    /*
                 if (node.connector) {
                     //GUSA
                     node.connector.updateConnection(); //GUSA
-                }
-		*/
-                if (node.connectors) {
-                    for( let i = 0; i < node.connectors.length ; i++ ) {
-                        node.connectors[i].updateConnection(); //GUSA
-		    }
                 }
             },
             ondragend(e) {
@@ -2244,16 +2219,9 @@ Resize.prototype = {
             that.editor.update();
             that.editor.trigger("drag", node, e);
             that.trigger("drag", node, e);
-		/*
                 if (node.connector) {
                     //GUSA
                     node.connector.updateConnection(); //GUSA
-                }
-		*/
-                if (node.connectors) {
-                    for( let i = 0; i < node.connectors.length ; i++ ) {
-                        node.connectors[i].updateConnection(); //GUSA
-		    }
                 }
         };
 
@@ -2548,16 +2516,9 @@ Rotate.prototype = {
             that.editor.update();
             that.editor.trigger("drag", node, e);
             that.trigger("drag", node, e);
-		/*
                 if (node.connector) {
                     //GUSA
                     node.connector.updateConnection(); //GUSA
-                }
-		*/
-                if (node.connectors) {
-                    for( let i = 0; i < node.connectors.length ; i++ ) {
-                        node.connectors[i].updateConnection(); //GUSA
-		    }
                 }
         };
 
