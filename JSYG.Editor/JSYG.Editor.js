@@ -593,10 +593,14 @@ class Connector extends StdConstruct {
 
         let n1 = this.get_center_point(this.node1) 
         let n2 = this.get_center_point(this.node2) 
-
+        //console.log(n1);
+        //console.log(n2);
         const line = ShapeInfo.line(n1[1], n2[1]);
         const isc1 = Intersection.intersect(n1[0], line);
         const isc2 = Intersection.intersect(n2[0], line);
+
+        if ( n1[2]) console.log(n1[2])
+        if ( n2[2]) console.log(n2[2])
 
         this.line.setAttributeNS(null, "x1", isc1.points[0].x);
         this.line.setAttributeNS(null, "y1", isc1.points[0].y);
@@ -610,25 +614,29 @@ class Connector extends StdConstruct {
             var y = parseFloat(node.getAttributeNS(null, "y"));
             var w = parseFloat(node.getAttributeNS(null, "width"));
             var h = parseFloat(node.getAttributeNS(null, "height")) ;
+            var t = node.getAttributeNS(null, "transform") ;
             var cx = x + parseFloat(w / 2);
             var cy = y + parseFloat(h / 2);
             const rect = ShapeInfo.rectangle([x,y],[w,h]);
-            return [rect, [cx, cy]]
+            return [rect, [cx, cy], t]
 	} else if (node.tagName == 'circle') {
             var cx = parseFloat(node.getAttributeNS(null, "cx"));
             var cy = parseFloat(node.getAttributeNS(null, "cy"));
             var r  = parseFloat(node.getAttributeNS(null, "r"));
+            var t = node.getAttributeNS(null, "transform") ;
             const circle = ShapeInfo.circle(cx,cy,r);
-            return [circle, [cx, cy]]
+            return [circle, [cx, cy], t]
 	} else if (node.tagName == 'ellipse') {
             var cx = parseFloat(node.getAttributeNS(null, "cx"));
             var cy = parseFloat(node.getAttributeNS(null, "cy"));
             var rx = parseFloat(node.getAttributeNS(null, "rx"));
             var ry = parseFloat(node.getAttributeNS(null, "ry"));
+            var t = node.getAttributeNS(null, "transform") ;
             const ellipse = ShapeInfo.ellipse([cx,cy],rx, ry);
-            return [ellipse, [cx, cy]]
+            return [ellipse, [cx, cy], t]
 	} else if (node.tagName == 'polygon') {
             var points_str = node.getAttributeNS(null, "points");
+            var t = node.getAttributeNS(null, "transform") ;
             var list = points_str.split(' ');
             let points_array = [];
             for (let i = 0; i < list.length ;i =  i+2) {
@@ -637,7 +645,7 @@ class Connector extends StdConstruct {
 	    }
             let center = this.polygon_center(points_array);
             const polygon = ShapeInfo.polygon(points_array);
-            return [polygon, center]
+            return [polygon, center, t]
 	} else  {
             throw("connection node type", node.tagName)
         }
