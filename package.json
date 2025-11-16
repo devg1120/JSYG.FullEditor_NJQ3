@@ -27,6 +27,7 @@
     "kld-intersections": "^0.7.0",
     "pathseg": "^1.2.1",
     "prettier": "^3.6.2",
+    "svg-intersections": "^0.4.0",
     "zepto.js": "^1.1.6"
   }
 }

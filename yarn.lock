@@ -1242,6 +1242,11 @@ jsyg-vect@^1.0.2:
   dependencies:
     jsyg-point "^1.0.1"
 
+kld-affine@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/kld-affine/-/kld-affine-2.0.0.tgz#a3f3a96d08deb176a4561c4c552b20d718a253c7"
+  integrity sha512-UmP2/cQizPEE1PO1PVyk7GN7TIbGB1r6h3kGJcscPvE7F49Dsv0TnNgoLEBVBgDXx0LFUbhPBcc0MtwUL3VjgQ==
+
 kld-affine@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/kld-affine/-/kld-affine-2.1.1.tgz#e28296585f305230eaad3b1e346d3ac5ca4c72b3"
@@ -1260,6 +1265,11 @@ kld-path-parser@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/kld-path-parser/-/kld-path-parser-0.2.1.tgz#ad1f7c8ebc9c9d67409413fc4de459293394e86b"
   integrity sha512-C1EqY6vzqv5tdKeMF31L+JXq97n5zo67LiSEhZf4sPq8YeM+8ytp/qMGSKN8VdSPvFa6h1SR35aF4+T2JtxZww==
+
+kld-polynomial@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/kld-polynomial/-/kld-polynomial-0.1.1.tgz#6d7b114db5945409af8e1b6225cd2f0a6b555bd5"
+  integrity sha512-ropyUXXdsbarUe+19taltkkJxbFr8jQCsZFPAzIK/qxcWjKWrnO7WR+8kjpIxB2BT7YjZdxLFF4TmGSJHS7B9g==
 
 kld-polynomial@^0.3.0:
   version "0.3.0"
@@ -2185,6 +2195,14 @@ supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
+
+svg-intersections@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/svg-intersections/-/svg-intersections-0.4.0.tgz#1d491530988974b1923d04a10bd59cc04ec150ff"
+  integrity sha512-w/OhJFvOlpy8Qyf+IuNB6uk3EhwkzHzrbqnbD8ktgvVf3zk+VotPWOsUQtYOV9zSLEYWq0jFEh/uah/qVSzMiQ==
+  dependencies:
+    kld-affine "2.0.0"
+    kld-polynomial "0.1.1"
 
 tinyglobby@^0.2.15:
   version "0.2.15"
