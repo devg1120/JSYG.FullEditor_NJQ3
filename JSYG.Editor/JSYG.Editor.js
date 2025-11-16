@@ -11,7 +11,8 @@ import { Resizable } from "../JSYG.Resizable/JSYG.Resizable.js";
 import { Rotatable } from "../JSYG.Rotatable/JSYG.Rotatable.js";
 
 import { Path } from "../JSYG.Path/JSYG.Path.js";
-import {ShapeInfo, Intersection} from "kld-intersections";
+import { ShapeInfo, Intersection} from "kld-intersections";
+import { shape, intersect} from "svg-intersections";
 
 const ctrls = ["Drag", "Resize", "Rotate", "CtrlPoints", "MainPoints"];
 const plugins = ["box", "selection", "clipBoard"];
@@ -325,8 +326,9 @@ export class Editor extends StdConstruct {
     }
 
     initSVG(svg) {
-        console.log("initSVG",svg);
+        //console.log("initSVG",svg);
 	let lines = svg.querySelectorAll("line");
+        console.log("lines",lines.length);
         for (let i = 0; i < lines.length ; i++) {
              let f_id = lines[i].getAttributeNS(null, 'from-id' )
              let t_id = lines[i].getAttributeNS(null, 'to-id' )
@@ -558,8 +560,15 @@ class Connector extends StdConstruct {
         this.line.setAttributeNS(null, "strok-width", "3");
 
         this.svg.appendChild(this.line);
-        const id1= guid();
-        const id2= guid();
+        //const id1= guid();
+        //const id2= guid();
+
+        let id1, id2;
+        id1 = this.node1.getAttributeNS(null, 'cid');
+        if (!id1) id1= guid();
+        id2 = this.node2.getAttributeNS(null, 'cid');
+        if (!id2) id2= guid();
+
         this.node1.setAttributeNS(null, 'cid', id1);
         this.node2.setAttributeNS(null, 'cid', id2);
         this.line.setAttributeNS(null, 'from-id', id1);
@@ -589,7 +598,11 @@ class Connector extends StdConstruct {
       if (this.node1.tagName == 'ellipse' && this.node2.tagName == 'polygon' )  this.connect_ellipse_polygon();
     }
 
+    updateConnection_() {
+
+    }
     updateConnection() {
+
 
         let n1 = this.get_center_point(this.node1) 
         let n2 = this.get_center_point(this.node2) 
@@ -599,8 +612,8 @@ class Connector extends StdConstruct {
         const isc1 = Intersection.intersect(n1[0], line);
         const isc2 = Intersection.intersect(n2[0], line);
 
-        if ( n1[2]) console.log(n1[2])
-        if ( n2[2]) console.log(n2[2])
+        //console.log(n1[2])
+        //console.log(n2[2])
 
         this.line.setAttributeNS(null, "x1", isc1.points[0].x);
         this.line.setAttributeNS(null, "y1", isc1.points[0].y);
@@ -2058,7 +2071,7 @@ Drag.prototype = {
                 that.trigger("dragstart", node, e);
             },
             ondrag(e) {
-                console.log("ondrag", jNode.getTag(), node );
+                //console.log("ondrag", jNode.getTag(), node );
                 that.editor.update();
                 that.editor.trigger("drag", node, e);
                 that.trigger("drag", node, e);

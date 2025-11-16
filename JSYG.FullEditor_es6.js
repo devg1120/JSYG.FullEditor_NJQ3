@@ -1540,8 +1540,8 @@ export default class FullEditor extends JSYG {
 
         const event = new CustomEvent("load", { detail: svg });
         this[0].dispatchEvent(event);
-         console.log(svg[0])
-         console.log(this.getDocument())
+         //console.log(svg[0])
+         //console.log(this.getDocument())
         this.shapeEditor.initSVG(svg[0]);
 
         return this;
