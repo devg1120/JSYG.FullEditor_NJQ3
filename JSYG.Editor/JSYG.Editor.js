@@ -628,6 +628,10 @@ class Connector extends StdConstruct {
             var w = parseFloat(node.getAttributeNS(null, "width"));
             var h = parseFloat(node.getAttributeNS(null, "height")) ;
             var t = node.getAttributeNS(null, "transform") ;
+            var tv = t.slice(7).slice(0,-1).split(' ');
+	    var r = Math.atan2(tv[1], tv[0]) * 180 / Math.PI 
+            console.log(r);
+
             var cx = x + parseFloat(w / 2);
             var cy = y + parseFloat(h / 2);
             const rect = ShapeInfo.rectangle([x,y],[w,h]);
