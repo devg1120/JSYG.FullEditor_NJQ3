@@ -11,8 +11,8 @@ import { Resizable } from "../JSYG.Resizable/JSYG.Resizable.js";
 import { Rotatable } from "../JSYG.Rotatable/JSYG.Rotatable.js";
 
 import { Path } from "../JSYG.Path/JSYG.Path.js";
-import { ShapeInfo, Intersection, Point2D, Matrix2D} from "kld-intersections";
-//import { shape, intersect } from "svg-intersections";
+import { ShapeInfo, Intersection} from "kld-intersections";
+import { shape, intersect} from "svg-intersections";
 
 const ctrls = ["Drag", "Resize", "Rotate", "CtrlPoints", "MainPoints"];
 const plugins = ["box", "selection", "clipBoard"];
@@ -606,17 +606,12 @@ class Connector extends StdConstruct {
 
         let n1 = this.get_center_point(this.node1) 
         let n2 = this.get_center_point(this.node2) 
+        //console.log(n1);
+        //console.log(n2);
         const line = ShapeInfo.line(n1[1], n2[1]);
-        var isc1 = Intersection.intersect(n1[0], line);
-        var isc2 = Intersection.intersect(n2[0], line);
+        const isc1 = Intersection.intersect(n1[0], line);
+        const isc2 = Intersection.intersect(n2[0], line);
 
-        if (n1[2] != 0) {
-
-              //isc1 = rotate_intersect(n1[1], n2[1], n1[0])
-               isc1 = this.rotate_intersect(n1[1], n2[1] , this.node1, n1[2], n1[3])
-               //console.log(isc.intersection)
-               console.log(n1[2], "status", isc1.status)
-	}
         //console.log(n1[2])
         //console.log(n2[2])
 
@@ -625,115 +620,6 @@ class Connector extends StdConstruct {
         this.line.setAttributeNS(null, "x2", isc2.points[0].x);
         this.line.setAttributeNS(null, "y2", isc2.points[0].y);
 
-    }
-
-    rotate_intersect2( line_point1, line_point2, rect_ , angle_) {
-
-      // define line
-      const line = {
-          p1: new Point2D(40, 0),
-          p2: new Point2D(70, 130)
-      };
-      
-      // define rectangle
-      const rect = {
-          topLeft: new Point2D(10, 10),
-          bottomRight: new Point2D(110, 110)
-      };
-      
-      // convert rectangle corners to polygon (list of points)
-      const poly = [
-          rect.topLeft,
-          new Point2D(rect.bottomRight.x, rect.topLeft.y),
-          rect.bottomRight,
-          new Point2D(rect.topLeft.x, rect.bottomRight.y)
-      ];
-      
-      // find center point of rectangle
-      const center = rect.topLeft.lerp(rect.bottomRight, 0.5);
-      console.log("center", center);
-      // define rotation in radians
-      const angle = 45.0 * Math.PI / 180.0;
-      
-      // create matrix for rotating around center of rectangle
-      const rotation = Matrix2D.rotationAt(angle, center);
-      
-      // create new rotated polygon
-      const rotatedPoly = poly.map(p => p.transform(rotation));
-      
-      // find intersections
-      const result = Intersection.intersectLinePolygon(line.p1, line.p2, rotatedPoly);
-        return result;
-
-
-    }
-
-    //rotate_intersect( point_from, point_to, rect ) {
-    rotate_intersect( line_point1, line_point2, rect_ , r, angle_) {
-        
-             //console.log("point1", line_point1[0], line_point1[1]),
-             //console.log("point2", line_point2[0], line_point2[1])
-         // define line
-         const line = {
-             p1: new Point2D(parseInt(line_point1[0]), parseInt(line_point1[1])),
-             p2: new Point2D(parseInt(line_point2[0]), parseInt(line_point2[1]))
-         };
-         
-         let rect_x = parseFloat(rect_.getAttributeNS(null, "x"));
-         let rect_y = parseFloat(rect_.getAttributeNS(null, "y"));
-         let rect_width  = parseFloat(rect_.getAttributeNS(null, "width"));
-         let rect_height = parseFloat(rect_.getAttributeNS(null, "height"));
-
-         console.log("rect", rect_x, rect_y, rect_width, rect_height);
-         // define rectangle
-         const rect = {
-             topLeft: new Point2D(rect_x, rect_y),
-             bottomRight: new Point2D(rect_x + rect_width,  rect_y + rect_height)
-         };
-	 
-/*
-      // define line
-      const line = {
-          p1: new Point2D(40, 0),
-          p2: new Point2D(70, 130)
-      };
-      
-      // define rectangle
-      const rect = {
-          topLeft: new Point2D(10, 10),
-          bottomRight: new Point2D(110, 110)
-      };
-  */       
-	    console.dir(line)
-	    console.dir(rect)
-
-         // convert rectangle corners to polygon (list of points)
-         const poly = [
-             rect.topLeft,
-             new Point2D(rect.bottomRight.x, rect.topLeft.y),
-             rect.bottomRight,
-             new Point2D(rect.topLeft.x, rect.bottomRight.y)
-         ];
-         
-         // find center point of rectangle
-         const center = rect.topLeft.lerp(rect.bottomRight, 0.5);
-         //const center2 = new Point2D(line_point1[0], line_point1[1]);
-          //console.log("center", center)
-          //console.log("center2", center2)
-         // define rotation in radians
-         const angle = r * Math.PI / 180.0;
-         
-         // create matrix for rotating around center of rectangle
-         const rotation = Matrix2D.rotationAt(angle_, center);
-         
-         // create new rotated polygon
-         const rotatedPoly = poly.map(p => p.transform(rotation));
-         
-         // find intersections
-         const result = Intersection.intersectLinePolygon(line.p1, line.p2, rotatedPoly);
-         //const result = Intersection.intersectLineRectangle(line.p1, line.p2, rotatedPoly);
-
-         return result;
     }
     get_center_point(node) {
         if (node.tagName == 'rect') {
@@ -744,12 +630,12 @@ class Connector extends StdConstruct {
             var t = node.getAttributeNS(null, "transform") ;
             var tv = t.slice(7).slice(0,-1).split(' ');
 	    var r = Math.atan2(tv[1], tv[0]) * 180 / Math.PI 
-	    var angle = Math.atan2(tv[1], tv[0])  
+            console.log(r);
 
             var cx = x + parseFloat(w / 2);
             var cy = y + parseFloat(h / 2);
             const rect = ShapeInfo.rectangle([x,y],[w,h]);
-            return [rect, [cx, cy], r, angle]
+            return [rect, [cx, cy], t]
 	} else if (node.tagName == 'circle') {
             var cx = parseFloat(node.getAttributeNS(null, "cx"));
             var cy = parseFloat(node.getAttributeNS(null, "cy"));
