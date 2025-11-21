@@ -714,14 +714,14 @@ class Connector extends StdConstruct {
          let cy = parseFloat(ellipse_.getAttributeNS(null, "cy"));
          let rx = parseFloat(ellipse_.getAttributeNS(null, "rx"));
          let ry = parseFloat(ellipse_.getAttributeNS(null, "ry"));
-
+console.log(cx, cy, rx, ry);
 // define rotated ellipse
 const ellipse = {
     center: new Point2D(cx, cy),
     //center: new Point2D(line_point1[0], line_point1[1]),
     radiusX: rx,
     radiusY: ry,
-    angle: angle_
+    angle: parseFloat(angle_)
 };
 console.log("ellipse", ellipse);
 
@@ -729,7 +729,10 @@ console.log("ellipse", ellipse);
 const radians = ellipse.angle * Math.PI / 180.0;
 //const radians = ellipse.angle * 180.0 / Math.PI;
 
-const rotation = Matrix2D.rotation(-radians);
+//const rotation = Matrix2D.rotation(-radians);
+//const rotation = Matrix2D.rotation(-r*10);
+const rotation = Matrix2D.rotationAt(ellipse.angle, ellipse.center);
+
 const rotatedLine = {
     p1: line.p1.transform(rotation),
     p2: line.p2.transform(rotation)
