@@ -546,12 +546,6 @@ class Connector extends StdConstruct {
         this.node2 = to;
         console.log("connector init: ", from.tagName, to.tagName);
 
-        /*
- <line fill="#ffffff" stroke="#000000" stroke-width="1" x1="178.80528259277344" y1="238.88331604003906" x2="238.55137634277344" y2="255.4794464111328"></line>
-
- <polyline points="0,100 50,25 50,75 100,0" />
-
- */
         const svgNamespace = "http://www.w3.org/2000/svg";
         this.line = document.createElementNS(svgNamespace, "line");
         this.updateConnection();
@@ -598,7 +592,7 @@ class Connector extends StdConstruct {
       if (this.node1.tagName == 'ellipse' && this.node2.tagName == 'polygon' )  this.connect_ellipse_polygon();
     }
 
-    updateConnection_() {
+    updateConnection() {
 
         let n1 = this.get_center_point(this.node1) 
         let n2 = this.get_center_point(this.node2) 
@@ -611,7 +605,7 @@ class Connector extends StdConstruct {
         this.line.setAttributeNS(null, "y2", isc2.points[0].y);
 
     }
-    updateConnection() {
+    updateConnection_rotation() {
 
 
         let n1 = this.get_center_point(this.node1) 
