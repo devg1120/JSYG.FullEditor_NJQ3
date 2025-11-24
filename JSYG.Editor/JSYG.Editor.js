@@ -592,7 +592,7 @@ class Connector extends StdConstruct {
       if (this.node1.tagName == 'ellipse' && this.node2.tagName == 'polygon' )  this.connect_ellipse_polygon();
     }
 
-    updateConnection() {
+    updateConnection_not_rote() {
 
         let n1 = this.get_center_point(this.node1) 
         let n2 = this.get_center_point(this.node2) 
@@ -605,7 +605,7 @@ class Connector extends StdConstruct {
         this.line.setAttributeNS(null, "y2", isc2.points[0].y);
 
     }
-    updateConnection_rotation() {
+    updateConnection() {
 
 
         let n1 = this.get_center_point(this.node1) 
