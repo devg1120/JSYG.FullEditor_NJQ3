@@ -24,6 +24,7 @@ export class Editor extends StdConstruct {
         this.ctrlsCtrlPoints = new CtrlPoints(this);
         this.ctrlsResize = new Resize(this);
         this.ctrlsRotate = new Rotate(this);
+
         this.ctrlsDrag = new Drag(this);
 
         this.selection = new Selection();
@@ -548,7 +549,7 @@ class Connector extends StdConstruct {
 
         const svgNamespace = "http://www.w3.org/2000/svg";
         this.line = document.createElementNS(svgNamespace, "line");
-        this.updateConnection();
+        this.updateConnection("create");
 
         this.line.setAttributeNS(null, "stroke", "black");
         this.line.setAttributeNS(null, "strok-width", "3");
@@ -578,7 +579,7 @@ class Connector extends StdConstruct {
         //let tid = this.line.setAttributeNS(null, 'to-id', );
         //console.log("connector load: ", fid, tid );
 
-        this.updateConnection();
+        this.updateConnection("load");
 
     }
     getLine() {
@@ -605,8 +606,8 @@ class Connector extends StdConstruct {
         this.line.setAttributeNS(null, "y2", isc2.points[0].y);
 
     }
-    updateConnection() {
-
+    updateConnection(source) {
+       console.log("updateConnection", source);
 
         let n1 = this.get_center_point(this.node1) 
         let n2 = this.get_center_point(this.node2) 
@@ -636,8 +637,8 @@ class Connector extends StdConstruct {
 	    }
 	}
 
-        console.log("isc1", isc1.points.length)
-        console.log("isc2", isc2.points.length)
+        //console.log("isc1", isc1.points.length)
+        //console.log("isc2", isc2.points.length)
         //console.log(n2[2])
 
         this.line.setAttributeNS(null, "x1", isc1.points[0].x);
@@ -768,6 +769,9 @@ const result = Intersection.intersectEllipseLine(
     }
     get_center_point(node) {
         if (node.tagName == 'rect') {
+            //console.log(node.getParentElements());
+            //console.log("tempo y",  this._tempoContainer[0].getAttributeNS(null, "y"));
+
             var x = parseFloat(node.getAttributeNS(null, "x"));
             var y = parseFloat(node.getAttributeNS(null, "y"));
             var w = parseFloat(node.getAttributeNS(null, "width"));
@@ -2235,7 +2239,7 @@ Drag.prototype = {
 		*/
                 if (node.connectors) {
                     for( let i = 0; i < node.connectors.length ; i++ ) {
-                        node.connectors[i].updateConnection(); //GUSA
+                        node.connectors[i].updateConnection("dragging"); //GUSA
 		    }
                 }
             },
@@ -2717,7 +2721,7 @@ Rotate.prototype = {
             that.trigger("dragstart", node, e);
         };
 
-        const drag = (e) => {
+        const drag = (e) => {   //shape rotaite
             that.editor.update();
             that.editor.trigger("drag", node, e);
             that.trigger("drag", node, e);
@@ -2729,7 +2733,7 @@ Rotate.prototype = {
 		*/
                 if (node.connectors) {
                     for( let i = 0; i < node.connectors.length ; i++ ) {
-                        node.connectors[i].updateConnection(); //GUSA
+                        node.connectors[i].updateConnection("rotate"); //GUSA
 		    }
                 }
         };
