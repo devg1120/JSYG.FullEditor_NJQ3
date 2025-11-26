@@ -624,6 +624,10 @@ class Connector extends StdConstruct {
                isc1 = this.rotate_intersect_ellipse(n1[1], n2[1] , this.node1, n1[2], n1[3])
                //console.log(n1[2], "status", isc1.status)
 	    }
+           if (this.node1.tagName == 'polygon')  {
+               isc1 = this.rotate_intersect_polygon(n1[1], n2[1] , this.node1, n1[2], n1[3])
+               //console.log(n1[2], "status", isc1.status)
+	    }
 	}
 	
         if (n2[2] != 0) {
@@ -633,6 +637,10 @@ class Connector extends StdConstruct {
 	    }
            if (this.node2.tagName == 'ellipse')  {
                isc2 = this.rotate_intersect_ellipse(n1[1], n2[1] , this.node2, n2[2], n2[3])
+               //console.log(n1[2], "status", isc2.status)
+	    }
+           if (this.node2.tagName == 'polygon')  {
+               isc2 = this.rotate_intersect_polygon(n1[1], n2[1] , this.node2, n2[2], n2[3])
                //console.log(n1[2], "status", isc2.status)
 	    }
 	}
@@ -698,7 +706,8 @@ class Connector extends StdConstruct {
          return result;
     }
 
-    rotate_intersect_ellipse( line_point1, line_point2, ellipse_ , r, angle_) {
+    //rotate_intersect_ellipse( line_point1, line_point2, ellipse_ , r, angle) {
+    rotate_intersect_ellipse( line_point1, line_point2, ellipse_ , r, angle, tv) {
         
          const line = {
              p1: new Point2D(parseFloat(line_point1[0]), parseFloat(line_point1[1])),
@@ -709,49 +718,60 @@ class Connector extends StdConstruct {
          let cy = parseFloat(ellipse_.getAttributeNS(null, "cy"));
          let rx = parseFloat(ellipse_.getAttributeNS(null, "rx"));
          let ry = parseFloat(ellipse_.getAttributeNS(null, "ry"));
-console.log(cx, cy, rx, ry);
-// define rotated ellipse
-const ellipse = {
-    center: new Point2D(cx, cy),
-    //center: new Point2D(line_point1[0], line_point1[1]),
-    radiusX: rx,
-    radiusY: ry,
-    angle: parseFloat(angle_)
-};
-console.log("ellipse", ellipse);
 
-// rotate the line into the ellipse's axis-aligned coordinate system
-const radians = ellipse.angle * Math.PI / 180.0;
-//const radians = ellipse.angle * 180.0 / Math.PI;
-
-//const rotation = Matrix2D.rotation(-radians);
-//const rotation = Matrix2D.rotation(-r*10);
-const rotation = Matrix2D.rotationAt(ellipse.angle, ellipse.center);
-
-const rotatedLine = {
-    p1: line.p1.transform(rotation),
-    p2: line.p2.transform(rotation)
-};
-
-// find intersections
-const result = Intersection.intersectEllipseLine(
-    ellipse.center, ellipse.radiusX, ellipse.radiusY,
-    rotatedLine.p1, rotatedLine.p2
-);
+          //console.log(cx, cy, rx, ry);
+          // define rotated ellipse
+          const ellipse = {
+              center: new Point2D(cx, cy),
+              //center: new Point2D(line_point1[0], line_point1[1]),
+              radiusX: rx,
+              radiusY: ry,
+              angle: parseFloat(angle)
+          };
+          //console.log("ellipse", ellipse);
+          
+          // rotate the line into the ellipse's axis-aligned coordinate system
+          const radians = ellipse.angle * Math.PI / 180.0;
+          //const radians = ellipse.angle * 180.0 / Math.PI;
+          
+          const rotation = Matrix2D.rotation(-radians);
+          //const rotation = Matrix2D.rotation(-r*10);
+          //const rotation = Matrix2D.rotationAt(ellipse.angle, ellipse.center);
+          
+          const rotatedLine = {
+              p1: line.p1.transform(rotation),
+              p2: line.p2.transform(rotation)
+          };
+          
+          // find intersections
+          const result = Intersection.intersectEllipseLine(
+              ellipse.center, ellipse.radiusX, ellipse.radiusY,
+              rotatedLine.p1, rotatedLine.p2
+          );
 
          return result;
-/*
-         // convert rectangle corners to polygon (list of points)
-         const poly = [
-             rect.topLeft,
-             new Point2D(rect.bottomRight.x, rect.topLeft.y),
-             rect.bottomRight,
-             new Point2D(rect.topLeft.x, rect.bottomRight.y)
-         ];
+    }
+
+    rotate_intersect_polygon( line_point1, line_point2, polygon_ , r, angle_) {
+        
+         const line = {
+             p1: new Point2D(parseFloat(line_point1[0]), parseFloat(line_point1[1])),
+             p2: new Point2D(parseFloat(line_point2[0]), parseFloat(line_point2[1]))
+         };
          
-         // find center point of rectangle
-         const center = rect.topLeft.lerp(rect.bottomRight, 0.5);
-          
+         let points_str = polygon_.getAttributeNS(null, "points");
+
+         //console.log("rect", rect_x, rect_y, rect_width, rect_height);
+	 console.log("points", points_str);
+          var list = points_str.split(' ');
+            let points_array = [];
+            for (let i = 0; i < list.length ;i =  i+2) {
+                  let point = new Point2D(parseFloat(list[i]), parseFloat(list[i+1]))
+                  points_array.push(point);
+            }
+         let bb = polygon_.getBBox();
+         let center = new Point2D(bb.x + bb.width/2,  bb.y + bb.height/2)
+
          // define rotation in radians
          //const angle = r * Math.PI / 180.0;
          
@@ -759,24 +779,27 @@ const result = Intersection.intersectEllipseLine(
          const rotation = Matrix2D.rotationAt(angle_, center);
          
          // create new rotated polygon
-         const rotatedPoly = poly.map(p => p.transform(rotation));
+         const rotatedPoly = points_array.map(p => p.transform(rotation));
          
          // find intersections
-         const result = Intersection.intersectLinePolygon(line.p1, line.p2, rotatedPoly);
+         let result = Intersection.intersectLinePolygon(line.p1, line.p2, rotatedPoly);
+
+         //const points = result.points.map(p => p.transform(rotation));
+         //result.points = points;
 
          return result;
- */
     }
+
     get_center_point(node) {
         if (node.tagName == 'rect') {
-            //console.log(node.getParentElements());
-            //console.log("tempo y",  this._tempoContainer[0].getAttributeNS(null, "y"));
 
             var x = parseFloat(node.getAttributeNS(null, "x"));
             var y = parseFloat(node.getAttributeNS(null, "y"));
             var w = parseFloat(node.getAttributeNS(null, "width"));
             var h = parseFloat(node.getAttributeNS(null, "height")) ;
-            var t = node.getAttributeNS(null, "transform") ;
+            var t ;
+             t = node.getAttributeNS(null, "transform") ;
+            if ( t == null)  t = "matrix(1 0 0 1 0 0 )";
             var tv = t.slice(7).slice(0,-1).split(' ');
 	    var r = Math.atan2(tv[1], tv[0]) * 180 / Math.PI 
 	    var angle = Math.atan2(tv[1], tv[0])  
@@ -784,14 +807,16 @@ const result = Intersection.intersectEllipseLine(
             var cx = x + (w / 2);
             var cy = y + (h / 2);
             const rect = ShapeInfo.rectangle([x,y],[w,h]);
-            return [rect, [cx, cy], r, angle]
+            return [rect, [cx, cy], r, angle, tv]
+
 	} else if (node.tagName == 'circle') {
             var cx = parseFloat(node.getAttributeNS(null, "cx"));
             var cy = parseFloat(node.getAttributeNS(null, "cy"));
             var r  = parseFloat(node.getAttributeNS(null, "r"));
             var t = node.getAttributeNS(null, "transform") ;
             const circle = ShapeInfo.circle(cx,cy,r);
-            return [circle, [cx, cy],  0, 0]
+            return [circle, [cx, cy],  0, 0, 0, 0]
+
 	} else if (node.tagName == 'ellipse') {
             var cx = parseFloat(node.getAttributeNS(null, "cx"));
             var cy = parseFloat(node.getAttributeNS(null, "cy"));
@@ -802,10 +827,17 @@ const result = Intersection.intersectEllipseLine(
 	    var r = Math.atan2(tv[1], tv[0]) * 180 / Math.PI 
 	    var angle = Math.atan2(tv[1], tv[0])  
             const ellipse = ShapeInfo.ellipse([cx,cy],rx, ry);
-            return [ellipse, [cx, cy], r, angle]
+            //return [ellipse, [cx, cy], r, angle]
+            return [ellipse, [cx, cy], r, angle, tv]
+
 	} else if (node.tagName == 'polygon') {
+            var t;
+	     t = node.getAttributeNS(null, "transform") ;
+            if ( t == null)  t = "matrix(1 0 0 1 0 0 )";
+            var tv = t.slice(7).slice(0,-1).split(' ');
+	    var r = Math.atan2(tv[1], tv[0]) * 180 / Math.PI 
+	    var angle = Math.atan2(tv[1], tv[0])  
             var points_str = node.getAttributeNS(null, "points");
-            var t = node.getAttributeNS(null, "transform") ;
             var list = points_str.split(' ');
             let points_array = [];
             for (let i = 0; i < list.length ;i =  i+2) {
@@ -814,7 +846,8 @@ const result = Intersection.intersectEllipseLine(
 	    }
             let center = this.polygon_center(points_array);
             const polygon = ShapeInfo.polygon(points_array);
-            return [polygon, center, t]
+            return [polygon, center, r, angle, tv]
+
 	} else  {
             throw("connection node type", node.tagName)
         }

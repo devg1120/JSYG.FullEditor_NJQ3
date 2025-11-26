@@ -2397,7 +2397,7 @@ JSYG.prototype.mtx2attrs = function (opt) {
 */
                 if ($this[0].connectors) {
                     for( let i = 0; i < $this[0].connectors.length ; i++ ) {
-                        $this[0].connectors[i].updateConnection(); //GUSA
+                        $this[0].connectors[i].updateConnection("mtx2attrs"); //GUSA
                     }
                 }
 
